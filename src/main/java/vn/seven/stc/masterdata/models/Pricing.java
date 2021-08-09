@@ -6,17 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pricing")
+@Table(name = "master_pricing")
 public class Pricing extends IdEntity {
-    private String name;
+    private String cycle;
     private String code;
 
-    public String getName() {
-        return name;
+    public String getCycle() {
+        return cycle;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
     }
 
     public String getCode() {
