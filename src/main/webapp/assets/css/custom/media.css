@@ -1,0 +1,40 @@
+@media screen and (max-width: 1366px) {
+    .table-height-fixed{
+        max-height: 375px;
+    }
+}
+
+@media screen and (max-width: 978px) {
+    .md-card .md-card-content.md-card-register{
+        padding: 32px 24px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .uk-grid-margin, .uk-grid+.uk-grid {
+        margin-top: 10px;
+    }
+    .md-card .md-card-content.md-card-register{
+        padding: 32px 24px;
+    }
+    .marginTopMinus10{
+        margin-top: 5px;
+    }
+    .text-middle{
+        display: table-cell;
+        height: auto;
+        vertical-align: middle;
+    }
+    .border-right-item{
+        border-right: unset;
+    }
+    .text-right{
+        text-align: unset;
+    }
+    .marginTopMinus15{
+        margin-top: 0;
+    }
+    .paddingLeft0{
+        padding-left: 25px;
+    }
+}

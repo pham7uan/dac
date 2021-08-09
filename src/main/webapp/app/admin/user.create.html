@@ -1,0 +1,121 @@
+<div id="page_content">
+    <form name="form_createuser" id="form_createuser" class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required" novalidate="">
+
+        <div id="page_content_inner" >
+            <jhi-alert></jhi-alert><modal-alert></modal-alert>
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-margin-small-top">
+                        <span class="route-header">
+                            <a ui-sref="users" >Danh sách người dùng</a>&nbsp;<i class="uk-icon-arrow-circle-right"></i>
+                            <span>Tạo mới</span>
+                        </span>
+
+                        <button ng-click="submit()" type="submit" class="md-btn md-btn-primary md-btn-small float-right left-16"><span class="uk-text-bold" data-translate="global.button.save"></span></button>
+                        <a  class="md-btn  md-btn-small float-right" ui-sref="users"><span class="uk-text-bold" >Hủy</span></a>
+                    </div>
+                    <hr>
+                    <div class="uk-grid" data-uk-grid-margin="">
+                        <div class="uk-width-medium-2-10">
+                            <div class="user_heading_avatar" data-provides="fileinput"
+                                 ng-mouseenter="user.mouseEnter = true"
+                                 ng-mouseleave="user.mouseEnter = false">
+
+                                <img ng-if="user.userAvatar || user.userAvatarBase64" class="uk-border-circle" ng-src="{{user.userAvatarBase64 ? user.userAvatarBase64 : '/attachment/images/' + user.userAvatar}}" alt="user avatar" width="120" height="120"/>
+                                <img ng-if="!user.userAvatar && !user.userAvatarBase64" class="uk-border-circle" ng-src="assets/img/avatars/avatar.jpg" alt="user avatar" width="150" height="150"/>
+
+                                <div class="user_avatar_controls">
+                                            <span class="btn-file uk-form-file" title="Maximum size: 64K">
+                                                <span class="fileinput-new"><i class="material-icons">&#xE2C6;</i></span>
+                                                <input-upload create="true"></input-upload>
+                                            </span>
+                                    <a ng-show="user.mouseEnter && (user.userAvatar || user.userAvatarBase64)" ng-click="deleteUserAvatar()" class="btn-file fileinput-exists js-uk-prevent" title="Delete"><i class="material-icons">&#xE5CD;</i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-8-10">
+                            <div class="uk-grid" data-uk-grid-margin="">
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label class="label-bold">Email</label>*
+                                        <input
+                                                ng-model="user.email"
+                                                data-parsley-maxlength="255"
+                                                data-parsley-maxlength-message="{{'global.messages.maxLength255' | translate}}"
+                                                data-parsley-whitespace="trim"
+                                                data-parsley-type-message="{{'global.messages.email' | translate}}"
+                                                data-parsley-trigger="change"
+                                                data-parsley-type="email"
+                                                data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                                required=""
+                                                id="email"
+                                                name="email"
+                                                class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                        <span class="md-input-bar "></span>
+                                    </div>
+                                </div>
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label class="label-bold" for="fullName" data-translate="admin.user.column.fullName"></label>*
+                                        <input ng-model="user.fullName"
+                                               data-parsley-maxlength="255"
+                                               data-parsley-maxlength-message="{{'global.messages.maxLength255' | translate}}"
+                                               data-parsley-whitespace="trim"
+                                               id="fullName" type="text"
+                                               name="fullName"
+                                               data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                               required=""
+                                               data-parsley-trigger="change"  class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                        <span class="md-input-bar "></span>
+                                    </div>
+                                </div>
+
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label class="label-bold">Số điện thoại</label>
+                                        <input
+                                                ng-model="user.phone"
+                                                data-parsley-maxlength="20"
+                                                data-parsley-maxlength-message="{{'global.messages.phoneMaxLength' | translate}}"
+                                                data-parsley-whitespace="trim"
+                                                data-parsley-trigger="change"
+                                                id="phone"
+                                                name="phone"
+                                                class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                        <span class="md-input-bar "></span>
+                                    </div>
+                                </div>
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label class="label-bold" >Phòng ban</label>
+                                        <input ng-model="user.department"
+                                               data-parsley-maxlength="255"
+                                               data-parsley-maxlength-message="{{'global.messages.maxLength255' | translate}}"
+                                               data-parsley-whitespace="trim"
+                                               id="department" type="text"
+                                               name="department"
+                                               data-parsley-trigger="change"  class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                        <span class="md-input-bar "></span>
+                                    </div>
+                                </div>
+
+                                <div class="uk-width-medium-1-1 ">
+                                    <label class="uk-form-label label-bold" >Vai trò</label>
+                                    <div class="parsley-row" has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_ORGANIZATION, phan_quyen">
+                                        <input id="selec_adv_2"
+                                               config="selectize_roles_config"
+                                               options="selectize_roles_options"
+                                               position="bottom"
+                                               ng-model="forms_advanced.selectize_roles"
+                                               selectize="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

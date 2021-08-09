@@ -1,0 +1,48 @@
+<!-- main header -->
+<style>
+    #header_main .sSwitch .sSwitchIcon, #header_main .sSwitch .sSwitchIcon:after, #header_main .sSwitch .sSwitchIcon:before {
+        background: black;
+        -webkit-transition: all .6s cubic-bezier(.4,0,.2,1);
+        transition: all .6s cubic-bezier(.4,0,.2,1);
+    }
+</style>
+<header id="header_main" ng-controller="main_headerCtrl"  style="padding-left: 4px!important; padding-right: 4px!important; background: white !important;">
+    <div class="header_main_content" >
+        <nav class="uk-navbar">
+            <div class="main_logo_top" ng-if="topMenuActive || fullHeaderActive">
+                <a ui-sref="restricted.dashboard"><img ng-src="assets/img/logo_main_white.png" alt="" add-image-prop/></a>
+            </div>
+            <!-- main sidebar switch -->
+            <sidebar-primary-toggle></sidebar-primary-toggle>
+            <!-- secondary sidebar switch -->
+
+            <sidebar-secondary-toggle ng-class="{ 'uk-hidden-large': secondarySidebarHiddenLarge }"></sidebar-secondary-toggle>
+            <div class="header-title-padding-top">
+                <span  class="heading_a uk-text-primary">
+                    <b>{{currentState}}</b>
+<!--                    <b>Danh sách nhân viên</b>-->
+                </span>
+            </div>
+
+            <div ng-if="mobile==0" class="uk-navbar-flip" >
+                <ul class="uk-navbar-nav user_actions">
+                    <li data-uk-dropdown="{mode:'click',pos:'bottom-right'}" ng-show="mobile==0">
+                        <a href="#" class="user_action_image">
+                            <img  ng-if="!userData.userAvatar" class="md-user-image" ng-src="{{avatarImg}}" alt=""/>
+                            <img  ng-if="userData.userAvatar" class="custom-avatar" ng-src="/attachment/images/{{userData.userAvatar}}"  alt="user avatar"/>
+                            <span  class="uk-text-primary">{{userData.fullName}}</span>
+                        </a>
+
+                        <div class="uk-dropdown uk-dropdown-small">
+                            <ul class="uk-nav js-uk-prevent">
+                                <li><a ui-sref="user-profile">Hồ Sơ Của Tôi</a></li>
+                                <!--<li><a ui-sref="restricted.pages.settings" data-translate="admin.menu.setting"></a></li>-->
+                                <li><a ng-click="logout()" >Đăng Xuất</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>

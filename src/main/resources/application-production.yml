@@ -1,0 +1,97 @@
+server:
+  port: 80
+spring:
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: VNPT.customer.care@gmail.com
+    password: TxH123456@
+    protocol: smtp
+    #      tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+      connectiontimeout: 5000
+      timeout: 5000
+      writetimeout: 5000
+      socketFactory.port: 465
+      socketFactory.class: javax.net.ssl.SSLSocketFactory
+  datasource :
+    url: jdbc:mysql://localhost:3306/VNPT?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username : root
+    password : TxH123456@
+  messages:
+    basename: i18n/messages
+    cache-seconds: -1
+    encoding: UTF-8
+
+security:
+  basic:
+    enabled: false
+#management.security.enabled=false
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: http://www.jhipster.tech/common-application-properties/
+# ==================================================================
+
+jhipster:
+  http:
+    version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+  cache: # Cache configuration
+    ehcache: # Ehcache configuration
+      time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
+      max-entries: 1000 # Number of objects in each cache entry
+  # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization"
+    allow-credentials: true
+    max-age: 1800
+  security:
+    authentication:
+      jwt:
+        secret: my-secret-token-to-change-in-production
+        # Token is valid 24 hours
+        token-validity-in-seconds: 36000000
+        token-validity-in-seconds-for-remember-me: 36000000
+  mail: # specific JHipster mail property, for standard properties see MailProperties
+    from: xxxxxx
+    base-url: http://127.0.0.1:8080
+application:
+  activation:
+    expirePeriod: 86400 #milliseconds
+    enableMail: true #true/false
+  ldap:
+    enabled: true #true/false
+    url: xxxxxxx
+    base: dc=xxxx-xxxxxx,dc=vn
+    userDN: xxxxxx
+    password: xxxxxxx
+  serverId: "00"
+  urlTraceLotNumber: "http://localhost:8080/#/trace/"
+  urlTraceSsccNumber: "http://localhost:8080/#/trace-sscc/"
+  urlTrace: "http://localhost:8080"
+
+baseUrl: http://VNPT.vn
+spring.http.multipart.max-file-size: 20MB
+spring.http.multipart.max-request-size: 20MB
+nodeId: 0

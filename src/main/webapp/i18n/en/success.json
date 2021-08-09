@@ -1,0 +1,14 @@
+{
+  "success": {
+    "msg": {
+      "delete": "Xóa thành công",
+      "active": "Activate thành công",
+      "inactive": "Deactivate thành công",
+      "create":"Tạo thành công",
+      "update":"Cập nhật thành công",
+      "validate":"Xác nhận thành công",
+      "import":"Nhập thành công",
+      "restore":"Khôi phục thành công"
+    }
+  }
+}
