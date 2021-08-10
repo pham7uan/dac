@@ -6,24 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "master_products")
+@Table(name = "master_product")
 public class Product extends IdEntity {
-    private String name;
-    private String code;
+    private String internalReference;
 
-    public String getName() {
-        return name;
+    public String getInternalReference() {
+        return internalReference;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    public void setInternalReference(String internalReference) {
+        this.internalReference = internalReference;
     }
 }
