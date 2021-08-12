@@ -18,6 +18,15 @@ public class Location extends IdEntity {
     private String name;
     private Long areaId;
 
+    public Location() {
+    }
+
+    public Location(Device device) {
+        setName(device.getAreaName());
+        setCode(device.getLocationCode());
+        setAreaId(device.getAreaId());
+    }
+
     public String getCode() {
         return code;
     }

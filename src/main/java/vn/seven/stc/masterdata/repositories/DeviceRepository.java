@@ -9,7 +9,5 @@ import java.util.List;
 
 @Repository
 public interface DeviceRepository extends CustomJpaRepository<Device, Long> {
-    Boolean existsByPricingCode(String pricingCode);
-    Boolean existsByCustomerCode(String customerCode);
-    Boolean existsByLocationCode(String locationCode);
+
 }
