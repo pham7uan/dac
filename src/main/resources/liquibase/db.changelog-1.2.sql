@@ -1,3 +1,4 @@
+drop table if EXISTS master_area;
 CREATE TABLE `master_area`  (
    `id` bigint(20) NOT NULL AUTO_INCREMENT,
    `name` varchar(255) NULL,
@@ -11,6 +12,7 @@ CREATE TABLE `master_area`  (
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+drop table if EXISTS master_location;
 CREATE TABLE `master_location`  (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NULL,
@@ -25,6 +27,7 @@ CREATE TABLE `master_location`  (
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+drop table if EXISTS master_pricing;
 CREATE TABLE `master_pricing`  (
    `id` bigint(20) NOT NULL AUTO_INCREMENT,
    `cycle` varchar(255) NULL,
@@ -38,6 +41,7 @@ CREATE TABLE `master_pricing`  (
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+drop table if EXISTS master_product;
 CREATE TABLE `master_product`  (
    `id` bigint(20) NOT NULL AUTO_INCREMENT,
    `internal_reference` varchar(255) NULL,
@@ -50,7 +54,7 @@ CREATE TABLE `master_product`  (
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
----import data
+-- import data
 -- ----------------------------
 -- Records of master_area(id, code, name)
 -- ----------------------------

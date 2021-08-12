@@ -29,7 +29,7 @@
                 controllerAs: 'vm',
                 data: {
                     pageTitle: 'Danh sách nhân viên',
-                    authorities: ['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','ROLE_MANAGER','danh_sach_nhan_vien','ROLE_USER'], //TODO change role,
+                    authorities: ['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','ROLE_MANAGER','user_view'], //TODO change role,
                     sideBarMenu: 'inventory'
                 },
                 params: {
@@ -54,7 +54,7 @@
                 parent:'inventory',
                 data: {
                     pageTitle: 'Tạo mới nhân viên',
-                    authorities:['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','user_create','ROLE_USER'],
+                    authorities:['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','user_create'],
                     sideBarMenu: 'inventory'
                 },
                 controller: 'UserCreateController',
@@ -76,7 +76,7 @@
                 parent:'inventory',
                 data: {
                     pageTitle: 'Chi tiết nhân viên',
-                    authorities:['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','user_edit','ROLE_USER'],
+                    authorities:['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','user_edit'],
                     sideBarMenu: 'inventory'
                 },
                 controller: 'UserEditController',
@@ -98,7 +98,7 @@
                 parent:'inventory',
                 data: {
                     pageTitle: 'Chi tiết nhân viên',
-                    authorities:['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','danh_sach_nhan_vien','ROLE_USER'],
+                    authorities:['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','user_view'],
                     sideBarMenu: 'inventory'
                 },
                 controller: 'UserDetailController',
@@ -109,49 +109,6 @@
                             'lazy_KendoUI',
                             'app/admin/user.detail.controller.js',
                             'assets/js/custom/uikit_fileinput.min.js'
-                        ]);
-                    }]
-                }
-
-            })
-            .state('privileges',{
-                parent: 'inventory',
-                url: '/privileges',
-                templateUrl: 'app/admin/privilege.home.html',
-                controller: 'PrivilegeHomeController',
-                controllerAs: 'vm',
-                data: {
-                    pageTitle: 'Danh sách quyền',
-                    authorities: ['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','phan_quyen'], //TODO change role,
-                    sideBarMenu: 'inventory'
-                },
-                resolve: {
-                    deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load([
-                            'lazy_ionRangeSlider',
-                            'lazy_tablesorter',
-                            'lazy_parsleyjs',
-                            'lazy_KendoUI',
-                            'app/admin/privilege.home.controller.js'
-                        ]);
-                    }]
-                }
-            })
-            .state('privileges-detail',{
-                url:'/privileges/{privilegeName}/detail',
-                templateUrl:'app/admin/privilege.detail.html',
-                parent:'inventory',
-                data: {
-                    pageTitle: 'Chi tiết quyền',
-                    authorities:['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','phan_quyen'],
-                    sideBarMenu: 'inventory'
-                },
-                controller: 'PrivilegeDetailController',
-                resolve: {
-                    deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load([
-                            'lazy_parsleyjs',
-                            'app/admin/privilege.detail.controller.js'
                         ]);
                     }]
                 }

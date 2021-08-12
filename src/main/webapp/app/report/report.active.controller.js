@@ -1,12 +1,16 @@
-(function (){
+(function(){
     'use strict';
-    angular.module('erpApp').controller('ReportActiveController', ReportActiveController);
+    angular.module('erpApp')
+        .controller('ReportActiveController',ReportActiveController);
 
-    ReportActiveController.$inject = ['$rootScope', '$scope', '$state', '$http', '$timeout', 'ErrorHandle',
-        'AlertService', '$translate', 'TableController', 'ComboBoxController', 'AlertModalService', 'Report', '$filter'];
-
-    function ReportActiveController($rootScope, $scope, $state, $http, $timeout, ErrorHandle,
-        AlertService, $translate, TableController, ComboBoxController, AlertModalService, Report, $filter){
+    ReportActiveController.$inject = ['$rootScope','$scope','$state','$http','$window','$filter',
+        '$timeout', 'AlertService',
+        '$translate','ErrorHandle',
+        'TableController','ComboBoxController','Report'];
+    function ReportActiveController($rootScope,$scope, $state,$http,$window,$filter,
+                                    $timeout, AlertService,
+                                    $translate, ErrorHandle,
+                                    TableController,ComboBoxController,Report) {
 
         $scope.searchInfo = {
             areaCodes: [],
@@ -45,8 +49,8 @@
                     angular.element("#exportReport").trigger("click");
                 });
             }).catch(function (error){
-               if ($scope.blockModal != null){$scope.blockModal.hide();}
-               AlertService.error($translate.instant(error.data.errorKey));
+                if ($scope.blockModal != null){$scope.blockModal.hide();}
+                AlertService.error($translate.instant(error.data.errorKey));
             });
         }
 
@@ -63,5 +67,6 @@
                 AlertService.error($translate.instant(error.data.errorKey));
             });
         }
+
     }
-})
+})();
