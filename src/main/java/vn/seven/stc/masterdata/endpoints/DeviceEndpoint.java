@@ -44,6 +44,6 @@ public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
 
     @RequestMapping(value = "{id}", method = RequestMethod.POST)
     public void updateInformation(@RequestBody List<Device> devices) {
-        deviceService.updateInformation(devices);
+        deviceService.update(devices);
     }
 }

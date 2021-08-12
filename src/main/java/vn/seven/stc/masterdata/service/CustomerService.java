@@ -31,7 +31,7 @@ public class CustomerService {
     public void create(Set<String> customerCode){
         List<Customer> customers = new ArrayList<>();
         for (String code : customerCode){
-            if (!customerRepository.existsByCustomerCode(code)){
+            if (!customerRepository.existsByCode(code)){
                 customers.add(new Customer(code));
             }
         }

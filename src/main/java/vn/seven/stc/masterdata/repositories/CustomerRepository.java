@@ -14,5 +14,5 @@ import java.util.List;
  */
 @Repository
 public interface CustomerRepository extends CustomJpaRepository<Customer, Long> {
-    Boolean existsByCustomerCode(String customerCode);
+    Boolean existsByCode(String customerCode);
 }
