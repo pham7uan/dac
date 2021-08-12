@@ -34,24 +34,20 @@ public class DeviceService extends CrudService<Device, Long> {
         this.repository = this.deviceRepository = deviceRepository;
     }
 
-    public void updateInformation(List<Device> devices){
-        repository.save(devices);
-
-        Pricing pricing;
-        Location location;
+    public void update(List<Device> devices){
         Set<String> customerCode = new HashSet<>();
         Map<String, Pricing> pricingMap = new HashMap<>();
         Map<String, Location> locationMap = new HashMap<>();
         for(Device device: devices){
+            beforeUpdate(device);
             // todo: get list customer code, pricing Map, locationMap
             customerCode.add(device.getCustomerCode());
-
-            pricing = new Pricing(device);
-            pricingMap.put(device.getPricingCode(), pricing);
-
-            location = new Location(device);
-            locationMap.put(device.getLocationCode(), location);
+            pricingMap.put(device.getPricingCode(),  new Pricing(device));
+            locationMap.put(device.getLocationCode(), new Location(device));
         }
+
+        repository.save(devices);
+
         // todo: create new customer
         customerService.create(customerCode);
         // todo: create new Pricing

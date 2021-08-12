@@ -1,6 +1,7 @@
 package vn.seven.stc.masterdata.models;
 
 import vn.seven.stc.core.IdEntity;
+import vn.seven.stc.umgr.utils.SecurityUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,6 +16,15 @@ import javax.persistence.Table;
 @Table(name = "master_customer")
 public class Customer extends IdEntity {
     private String code;
+
+    public Customer() {
+    }
+
+    public Customer(String code) {
+        this.code = code;
+        this.setCreated(System.currentTimeMillis());
+        this.setCreatedBy(SecurityUtils.getCurrentUserLogin());
+    }
 
     public String getCode() {
         return code;

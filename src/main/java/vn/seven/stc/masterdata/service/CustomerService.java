@@ -30,19 +30,13 @@ public class CustomerService {
 
     public void create(Set<String> customerCode){
         List<Customer> customers = new ArrayList<>();
-        Customer customer;
         for (String code : customerCode){
             if (!customerRepository.existsByCustomerCode(code)){
-                customer = new Customer();
-                customer.setCode(code);
-                customer.setCreated(System.currentTimeMillis());
-                if(customer.getCreatedBy() == null) {
-                    String currentUsername = SecurityUtils.getCurrentUserLogin();
-                    customer.setCreatedBy(currentUsername);
-                }
-                customers.add(customer);
+                customers.add(new Customer(code));
             }
         }
-        customerRepository.save(customers);
+        if(customers.size() > 0){
+            customerRepository.save(customers);
+        }
     }
 }

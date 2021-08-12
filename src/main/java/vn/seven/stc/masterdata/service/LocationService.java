@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.seven.stc.core.CrudService;
 import vn.seven.stc.masterdata.models.Location;
+import vn.seven.stc.masterdata.models.Pricing;
 import vn.seven.stc.masterdata.repositories.LocationRepository;
 import vn.seven.stc.umgr.utils.SecurityUtils;
 
@@ -26,13 +27,15 @@ public class LocationService  extends CrudService<Location, Long>{
     }
 
     public void create(Map<String, Location> locationMap){
-
+        List<Location> list = new ArrayList<>();
         for (Map.Entry<String, Location> item: locationMap.entrySet()){
             if (!locationRepository.existsByLocationCode(item.getValue().getCode())){
-               locationRepository.save(item.getValue());
                 beforeCreate(item.getValue());
+                list.add(item.getValue());
             }
         }
-
+        if(list.size() > 0){
+            locationRepository.save(list);
+        }
     }
 }
