@@ -13,7 +13,7 @@ public class Device extends IdEntity {
     private String mac;
     private String productName;
     private String fw;
-    private Integer state = DeviceState.UNDEFINED;  //trạng thái thiết bị
+    private Integer state = DeviceState.EXPORTED;  //trạng thái thiết bị
     private Long areaId;                            // khu vực
     private String areaName;
     private Long exportDate;                        // ngày xuất xưởng

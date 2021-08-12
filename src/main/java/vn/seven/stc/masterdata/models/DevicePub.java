@@ -2,7 +2,7 @@ package vn.seven.stc.masterdata.models;
 
 public class DevicePub  {
     private String serial;
-    private Integer state = DeviceState.UNDEFINED;  //trạng thái thiết bị
+    private Integer state = DeviceState.EXPORTED;  //trạng thái thiết bị
     private Long areaId;                            // khu vực
     private String areaName;
     private Long deliveryDate;                      // ngày giao hàng
