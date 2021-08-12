@@ -18,32 +18,21 @@ import java.util.Map;
  * Contact me via mail hiepnd@vnpt-technology.vn
  */
 @Service
-public class LocationService  {
+public class LocationService  extends CrudService<Location, Long>{
     private LocationRepository locationRepository;
 
-    @Autowired
-    public void setLocationRepository(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
+    public LocationService(LocationRepository repository){
+        this.locationRepository = repository;
     }
 
     public void create(Map<String, Location> locationMap){
-        List<Location> locations = new ArrayList<>();
-        Location location;
+
         for (Map.Entry<String, Location> item: locationMap.entrySet()){
             if (!locationRepository.existsByLocationCode(item.getValue().getCode())){
-                location = new Location();
-                location.setCode(item.getValue().getCode());
-                location.setName(item.getValue().getName());
-                location.setAreaId(item.getValue().getAreaId());
-                location.setCreated(System.currentTimeMillis());
-                if(location.getCreatedBy() == null) {
-                    String currentUsername = SecurityUtils.getCurrentUserLogin();
-                    location.setCreatedBy(currentUsername);
-                }
-                locations.add(location);
+               locationRepository.save(item.getValue());
+                beforeCreate(item.getValue());
             }
         }
-        locationRepository.save(locations);
 
     }
 }

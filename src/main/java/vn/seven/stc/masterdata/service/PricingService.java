@@ -14,31 +14,20 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class PricingService {
+public class PricingService  extends CrudService<Pricing, Long>{
     private PricingRepository packingRepository;
 
-    @Autowired
-    public void setPackingRepository(PricingRepository packingRepository) {
-        this.packingRepository = packingRepository;
+    public PricingService(PricingRepository repository){
+        this.packingRepository = repository;
     }
 
     public void create(Map<String, Pricing> pricingMap){
-        List<Pricing> piercings = new ArrayList<>();
-        Pricing pricing;
         for (Map.Entry<String, Pricing> item: pricingMap.entrySet()){
             if (!packingRepository.existsByPricingCode(item.getValue().getCode())){
-                pricing = new Pricing();
-                pricing.setCode(item.getValue().getCode());
-                pricing.setCycle(item.getValue().getCycle());
-                pricing.setCreated(System.currentTimeMillis());
-                if(pricing.getCreatedBy() == null) {
-                    String currentUsername = SecurityUtils.getCurrentUserLogin();
-                    pricing.setCreatedBy(currentUsername);
-                }
-                piercings.add(pricing);
+                packingRepository.save(item.getValue());
+                beforeCreate(item.getValue());
             }
         }
-        packingRepository.save(piercings);
 
     }
 }
