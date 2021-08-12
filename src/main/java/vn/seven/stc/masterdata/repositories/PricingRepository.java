@@ -6,5 +6,5 @@ import vn.seven.stc.masterdata.models.Pricing;
 
 @Repository
 public interface PricingRepository extends CustomJpaRepository<Pricing, Long> {
-    Boolean existsByPricingCode(String pricingCode);
+    Boolean existsByCode(String pricingCode);
 }

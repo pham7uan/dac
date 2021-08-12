@@ -17,7 +17,7 @@ import java.util.List;
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
     private DeviceService deviceService;
-    private static Logger logger = LoggerFactory.getLogger(DeviceService.class);
+    private static Logger logger = LoggerFactory.getLogger(DeviceEndpoint.class);
     public DeviceEndpoint(DeviceService service){
         super(service);
         this.deviceService = service;
@@ -42,7 +42,7 @@ public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
         // // không cho phép crud thủ công
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    @RequestMapping(path = "/sync", method = RequestMethod.POST)
     public void updateInformation(@RequestBody List<Device> devices) {
         deviceService.update(devices);
     }
