@@ -12,4 +12,5 @@ import vn.seven.stc.masterdata.models.Location;
  */
 @Repository
 public interface LocationRepository extends CustomJpaRepository<Location, Long> {
+    Boolean existsByLocationCode(String locationCode);
 }

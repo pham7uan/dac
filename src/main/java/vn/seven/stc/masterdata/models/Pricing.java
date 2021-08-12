@@ -11,6 +11,14 @@ public class Pricing extends IdEntity {
     private String cycle;
     private String code;
 
+    public Pricing() {
+    }
+
+    public Pricing(Device device) {
+        setCode(device.getPricingCode());
+        setCycle(device.getPricingCycle());
+    }
+
     public String getCycle() {
         return cycle;
     }
@@ -26,4 +34,5 @@ public class Pricing extends IdEntity {
     public void setCode(String code) {
         this.code = code;
     }
+
 }
