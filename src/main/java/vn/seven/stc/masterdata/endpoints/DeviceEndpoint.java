@@ -10,6 +10,8 @@ import vn.seven.stc.masterdata.models.Device;
 import vn.seven.stc.masterdata.service.DeviceService;
 import vn.seven.stc.umgr.utils.SecurityUtils;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/devices")
 @EnableConfigurationProperties(ApplicationProperties.class)
@@ -38,5 +40,10 @@ public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable(value = "id") Long id) {
         // // không cho phép crud thủ công
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    public void updateInformation(@RequestBody List<Device> devices) {
+        deviceService.updateInformation(devices);
     }
 }
