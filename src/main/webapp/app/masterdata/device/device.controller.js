@@ -3,16 +3,8 @@
     angular.module('erpApp')
         .controller('DeviceController',DeviceController);
 
-    DeviceController.$inject = ['$rootScope','$scope','$state','$http','$window',
-        '$timeout', 'AlertService',
-        '$translate','ErrorHandle',
-        'TableController','ComboBoxController', "$http",
-        'Device'];
-    function DeviceController($rootScope,$scope, $state,$http,$window,
-                               $timeout, AlertService,
-                               $translate, ErrorHandle,
-                               TableController,ComboBoxController,
-                                Device) {
+    DeviceController.$inject = ['$rootScope','$scope','$state','$stateParams','$timeout','Device', 'AlertService','ErrorHandle','TableController','ComboBoxController'];
+    function DeviceController($rootScope,$scope, $state,$stateParams,$timeout, Device, AlertService, ErrorHandle,TableController,ComboBoxController) {
         $scope.ComboBox = {};
 
         $scope.input ={
@@ -77,8 +69,5 @@
         TableController.sortDefault(tableConfig.tableId);   //set gia tri sap xep mac dinh
         TableController.reloadPage(tableConfig.tableId);    //load du lieu cho table
 
-        Device.getPage().then(function (response) {
-            console.log(response)
-        })
     }
 })();
