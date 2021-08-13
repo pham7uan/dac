@@ -27,7 +27,7 @@ spring:
   #        starttls.enable: false
   #        ssl.trust: smtp.vnpt-technology.vn
   datasource :
-    url: jdbc:mysql://localhost:3306/dac?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://10.15.12.151:3306/dac?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username : root
     password : root
   messages:

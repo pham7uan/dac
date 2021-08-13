@@ -74,5 +74,32 @@
                     }]
                 }
             })
+            .state('device',{
+                parent: 'inventory',
+                url: '/device',
+                templateUrl: 'app/masterdata/device/device.html',
+                controller: 'DeviceController',
+                controllerAs: 'vm',
+                params: {
+                    organizationId: null
+                },
+                data: {
+                    pageTitle: 'Thiết bị',
+                    authorities: ['ROLE_SYSTEM_ADMIN', 'ROLE_ORGANIZATION','ROLE_MANAGER', 'pricing_view'], //TODO change role,
+                    sideBarMenu: 'inventory'
+                },
+                resolve: {
+                    deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'lazy_ionRangeSlider',
+                            'lazy_tablesorter',
+                            'lazy_parsleyjs',
+                            'lazy_KendoUI',
+                            'lazy_tree',
+                            'app/masterdata/device/device.controller.js'
+                        ]);
+                    }]
+                }
+            })
     }
 })();
