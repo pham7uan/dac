@@ -155,7 +155,14 @@ angular
                         title: 'Thiết bị',
                         icon:"table_view",
                         privilege:"ROLE_SYSTEM_ADMIN, ROLE_ORGANIZATION,ROLE_MANAGER,device_view",
-                        link:'device'
+                        submenu:[
+                            {
+                                id: 11,
+                                title: 'Danh sách thiết bị',
+                                link:'device',
+                                privilege:"ROLE_SYSTEM_ADMIN, ROLE_ORGANIZATION,ROLE_MANAGER"
+                            }
+                        ]
                     },
                     {
                         id: 5,

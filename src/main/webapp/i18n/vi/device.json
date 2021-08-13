@@ -1,0 +1,8 @@
+{
+  "device": {
+    "column": {
+      "areaName" : "Khu vực",
+      "customerCode": "Mã khách hàng"
+    }
+  }
+}
