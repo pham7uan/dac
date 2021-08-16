@@ -10,12 +10,19 @@
     function Device ($http,$window) {
         var service = {
             getPage: getPage,
+            getCustomer:getCustomer
         };
 
         return service;
 
+        function getCustomer(params,input) {
+            return $http.post('/api/devices/customers?' + params,input).then(function (response) {
+                return response;
+            });
+        }
+
         function getPage(params) {
-            return $http.get('/api/users/search?' + params).then(function (response) {
+            return $http.get('/api/devices/search?' + params).then(function (response) {
                 return response;
             });
         }

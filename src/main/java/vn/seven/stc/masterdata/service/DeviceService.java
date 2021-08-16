@@ -1,8 +1,16 @@
 package vn.seven.stc.masterdata.service;
 
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.RSQLParserException;
+import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import vn.seven.stc.core.CrudService;
+import vn.seven.stc.core.rsql.CustomRsqlVisitor;
 import vn.seven.stc.masterdata.models.*;
 import vn.seven.stc.masterdata.repositories.DeviceRepository;
 
