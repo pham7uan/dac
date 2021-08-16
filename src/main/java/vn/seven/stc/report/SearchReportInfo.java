@@ -3,7 +3,7 @@ package vn.seven.stc.report;
 import java.util.Set;
 
 public class SearchReportInfo {
-    private Set<Long> areaIds;
+    private Set<Integer> areaIds;
     private Set<String> areaCodes;
     private Long activeStartDate;
     private Long activeEndDate;
@@ -20,11 +20,11 @@ public class SearchReportInfo {
         this.typeExport = typeExport;
     }
 
-    public Set<Long> getAreaIds() {
+    public Set<Integer> getAreaIds() {
         return areaIds;
     }
 
-    public void setAreaIds(Set<Long> areaIds) {
+    public void setAreaIds(Set<Integer> areaIds) {
         this.areaIds = areaIds;
     }
 

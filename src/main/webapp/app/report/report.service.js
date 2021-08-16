@@ -15,7 +15,6 @@
         return service;
         function exportReportActive(result){
             return $http.post('/api/report/export-active', result).then(function (response) {
-                debugger
                 return response.data;
             });
         }

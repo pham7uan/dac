@@ -27,7 +27,6 @@
           $scope.blockModal = null;
           $scope.blockModal = UIkit.modal.blockUI('<div class=\'uk-text-center\'>Đang xử lý...<br><img class=\'uk - margin - top\' src=\'assets/img/spinners/spinner_success.gif\' alt=\'\'>');
         };
-        var currentUser = $rootScope.currentUser;
         $scope.searchInfo = {
             areaIds: [],
             activeStartDate: null,
@@ -53,19 +52,11 @@
 
         var areaIds = []
         var areaIdList = "";
-        // if(!currentUser.areaIds.includes(1)) {
-        //     currentUser.areas.forEach(function (area) {
-        //         areaCodes.push(area.areaCode);
-        //     })
-        //     if(areaCodes.length > 0) {
-        //         areaCodeList = areaCodes.join(',');
-        //     }
-        // }
+
 
         let params = areaIdList.length > 0 ? "areaId=in=("+areaIdList+")":"";
         $scope.deviceReportInfo = {
-            "totalDeviceImport": 0,
-            "deviceImports":[]
+            "url": null
         }
 
         var tableConfig = {
@@ -92,36 +83,30 @@
         $scope.exportPdf = function (){
             $scope.searchInfo.typeExport = "pdf";
             $scope.blockUI();
-            debugger
             Report.exportReportActive($scope.searchInfo).then(function (res){
                 if ($scope.blockModal != null){$scope.blockModal.hide();}
-                debugger
-                $scope.downloadUrl = "api/download?filePath=" + res.url;
-                timeout(function (){
+                $scope.downloadUrl = res.fileName + "/api/download?filePath=" + res.url;
+                $timeout(function (){
                     angular.element("#exportReport").trigger("click");
                 });
             }).catch(function (error){
-                debugger
                 if ($scope.blockModal != null){$scope.blockModal.hide();}
-                AlertService.error($translate.instant(error.data.errorKey));
+                console.log(error);
             });
         }
 
         $scope.exportExcel = function (){
-            $scope.searchInfo.exportType = "excel";
+            $scope.searchInfo.typeExport = "excel";
             $scope.blockUI();
-            debugger
             Report.exportReportActive($scope.searchInfo).then(function (res){
-                debugger
                 if ($scope.blockModal != null){$scope.blockModal.hide();}
-                $scope.downloadUrl = "api/download?filePath=" + res.url;
-                timeout(function (){
+                $scope.downloadUrl = res.fileName + "/api/download?filePath=" + res.url;
+                $timeout(function (){
                     angular.element("#exportReport").trigger("click");
                 });
             }).catch(function (error){
-                debugger
                 if ($scope.blockModal != null){$scope.blockModal.hide();}
-                AlertService.error($translate.instant(error.data.errorKey));
+                console.log(error);
             });
         }
 
@@ -170,8 +155,7 @@
             $scope.isSearching = true;
             $scope.blockUI();
             Report.getReportDevice($scope.searchInfo).then(function (data) {
-                $scope.deviceReportInfo.deviceImports = data;
-                $scope.deviceReportInfo.totalDeviceImport = data.length;
+                $scope.deviceReportInfo.url = data.url;
                 if ($scope.blockModal != null) {$scope.blockModal.hide();}
                 $scope.isSearching = false;
             }).catch(function (data) {

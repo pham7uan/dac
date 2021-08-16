@@ -7,6 +7,7 @@
     <property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="461"/>
     <parameter name="fromActiveDate" class="java.lang.Long"/>
     <parameter name="toActiveDate" class="java.lang.Long"/>
+    <parameter name="areaList" class="java.util.Collection"/>
     <queryString language="SQL">
         <![CDATA[SELECT serial,
 	product_name,
@@ -14,7 +15,7 @@
 	contract,
 	accounting_code
 FROM dac.master_devices
-WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
+WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate} AND $X{IN, area_id, areaList}]]>
     </queryString>
     <field name="serial" class="java.lang.String">
         <property name="com.jaspersoft.studio.field.name" value="serial"/>
@@ -70,7 +71,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f2393ea0-fff5-4457-96e3-56d4806857d7"/>
                 </reportElement>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <text><![CDATA[Serial]]></text>
             </staticText>
@@ -79,7 +80,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c54f7bc7-25dd-4688-9fa9-865807dcbbf7"/>
                 </reportElement>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <text><![CDATA[Gói cước]]></text>
             </staticText>
@@ -88,7 +89,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5392221d-3c5c-48fe-bb33-5d3ef41a5f43"/>
                 </reportElement>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <text><![CDATA[Ngày kích hoạt]]></text>
             </staticText>
@@ -97,7 +98,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="030fbf3d-a059-497c-9cca-1e0df704c839"/>
                 </reportElement>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <text><![CDATA[Hợp đồng]]></text>
             </staticText>
@@ -106,14 +107,14 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e43508fc-3fe1-4545-8406-0b225f36f6eb"/>
                 </reportElement>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <text><![CDATA[Mã kế toán]]></text>
             </staticText>
             <staticText>
                 <reportElement x="0" y="0" width="40" height="30" uuid="963d9ac8-9bf9-424a-87b6-381b16a0ed8a"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <text><![CDATA[STT]]></text>
             </staticText>
@@ -126,7 +127,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f2393ea0-fff5-4457-96e3-56d4806857d7"/>
                 </reportElement>
                 <textElement verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{serial}]]></textFieldExpression>
             </textField>
@@ -135,7 +136,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c54f7bc7-25dd-4688-9fa9-865807dcbbf7"/>
                 </reportElement>
                 <textElement verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
             </textField>
@@ -144,7 +145,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5392221d-3c5c-48fe-bb33-5d3ef41a5f43"/>
                 </reportElement>
                 <textElement verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <textFieldExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format($F{active_date})]]></textFieldExpression>
             </textField>
@@ -153,7 +154,7 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="030fbf3d-a059-497c-9cca-1e0df704c839"/>
                 </reportElement>
                 <textElement verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{contract}]]></textFieldExpression>
             </textField>
@@ -162,14 +163,14 @@ WHERE active_date > $P{fromActiveDate} AND active_date < $P{toActiveDate}]]>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e43508fc-3fe1-4545-8406-0b225f36f6eb"/>
                 </reportElement>
                 <textElement verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{accounting_code}]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="0" y="0" width="40" height="30" uuid="042bb17d-f3ef-4202-b784-cf3181c0d335"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Times New Roman"/>
+                    <font fontName="DejaVu Sans"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
             </textField>
