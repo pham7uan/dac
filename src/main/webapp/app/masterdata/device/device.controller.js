@@ -23,7 +23,7 @@
         }
         var columns = {
             'id':'Number',
-            'areaId':'setLong',
+            'areaId':'MultiNumber',
             "customerCode":'Text',
             "serial": "Text",
             'productName':'Text',
@@ -216,7 +216,6 @@
         }
 
         $scope.mappingColumn = function(table,column, model){
-            console.log(table, column, model)
             $scope.TABLES[table].filter[column] = model;
         }
     }
