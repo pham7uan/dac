@@ -28,8 +28,8 @@
             "serial": "Text",
             'productName':'Text',
             'pricingCode':'Text',
-            'state':'Text',
-            'activeDate':'DateTime'
+            'state':'Number',
+            'activeDate':'Number'
         };
 
         var customParams = ""; // lay ENDUSER
@@ -102,8 +102,8 @@
             }, //enable load more
             maxItems: 1,
             valueField: 'code',
-            labelField: 'cycle',
-            searchField: 'cycle',
+            labelField: 'code',
+            searchField: 'code',
             create: false
         };
         Pricing.getPage("query=&page=0&size=1000&sort=id,desc").then(function (response) {
@@ -203,6 +203,10 @@
                 var value = this.value();
                 if(value !=null){
                     $scope.input.activeDate = value.getTime()
+                    $timeout(function () {
+                        $scope.TABLES['devices'].filter['activeDate'] = value.getTime();
+                        console.log($scope.TABLES['devices'].filter['activeDate'])
+                    })
                 } else {
                     $scope.input.activeDate = null;
                 }
@@ -211,12 +215,15 @@
 
         // khai bao cau hinh cho bang
         $scope.search = function(){
-            console.log('a',tableConfig.tableId)
             TableController.reloadPage(tableConfig.tableId);    //load du lieu cho table
         }
 
-        $scope.mappingColumn = function(table,column, model){
-            $scope.TABLES[table].filter[column] = model;
+        $scope.mappingColumn = function(table,column, model) {
+            if (column == 'activeDate' && model == 2) {
+                $scope.TABLES[table].customParams = "activeDate!=null";
+            } else {
+                $scope.TABLES[table].filter[column] = model;
+            }
         }
     }
 })();
