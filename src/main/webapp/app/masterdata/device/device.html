@@ -81,6 +81,7 @@
                                config="listConfig"
                                options="lists"
                                ng-model="input.listDs"
+                               ng-change="mappingColumn('devices', 'activeDate', input.listDs)"
                                data-parsley-trigger="focusout"
                                selectize="">
                     </div>
@@ -93,6 +94,7 @@
                                config="stateConfig"
                                options="states"
                                ng-model="input.state"
+                               ng-change="mappingColumn('devices', 'state', input.state)"
                                data-parsley-trigger="focusout"
                                selectize="">
                     </div>
