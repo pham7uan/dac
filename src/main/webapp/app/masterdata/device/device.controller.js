@@ -10,6 +10,14 @@
                               Device, AlertService, ErrorHandle,TableController,
                               ComboBoxController, Area, Customer, Pricing, Product) {
         $scope.ComboBox = {};
+        $scope.blockModal;
+        $scope.blockUI = function () {
+            if($scope.blockModal !=null){
+                $scope.blockModal.hide();
+            }
+            $scope.blockModal = null;
+            $scope.blockModal = UIkit.modal.blockUI('<div class=\'uk-text-center\'>Please Wait...<br/><img class=\'uk-margin-top\' src=\'assets/img/spinners/spinner.gif\' alt=\'\'>');
+        }
 
         $scope.input ={
             areaIds: [],
@@ -224,6 +232,24 @@
             } else {
                 $scope.TABLES[table].filter[column] = model;
             }
+        }
+
+        $scope.linkExportDevice = ''
+        $scope.handleExport = function (){
+            console.log('ấdfsdfasf')
+            $scope.blockUI();
+            Device.exportDevice().then(function (fileName) {
+                $scope.linkExportDevice = fileName;
+                if ($scope.blockModal != null)
+                    $scope.blockModal.hide();
+                $timeout(function () {
+                    angular.element("#exportTableModal").trigger("click");
+                });
+            }).catch(function(data){
+                if ($scope.blockModal != null)
+                    $scope.blockModal.hide();
+                ErrorHandle.handleError(data);
+            })
         }
     }
 })();

@@ -7,7 +7,7 @@
         </br>
         <div class="uk-margin-small-top">
             <a id="btnImport" class="md-btn md-btn-small md-btn-primary">
-                <span class="uk-text-bold" data-translate="global.button.export"></span>
+                <span class="uk-text-bold" data-translate="global.button.export" ng-click="handleExport()"></span>
             </a>
         </div>
     </div>
@@ -125,6 +125,32 @@
                             <th><th-content table="TABLES['devices']" label="'Gói cước'"     column="'pricingCode'"></th-content></th>
                             <th><th-content table="TABLES['devices']" label="'Trạng thái thiết bị'"     column="'state'"></th-content></th>
                             <th><th-content table="TABLES['devices']" label="'Ngày kích hoạt'"    column="'activeDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'imei'"    column="'imei'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'mac'"    column="'mac'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'fw'"    column="'fw'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Ngày Xuất xưởng'"    column="'exportDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Mã phiếu xuất kho'"    column="'exportCode'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'ngày giao hàng'"    column="'deliveryDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'ngày hết hạn bảo hành'"    column="'expiredDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Ngày xuất kho bảo hành'"    column="'guaranteeExportDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Ngày nhập kho bảo hành'"    column="'guaranteeImportDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'ngày thu hồi thiết bị'"    column="'recallDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Chu kỳ cước'"    column="'pricingCycle'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Ngày bắt đầu gói cước'"    column="'pricingBeginDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Ngày thanh lý gói cước'"    column="'pricingEndDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Ngày đôi gói cước (rã gói)'"    column="'pricingPauseDate'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Trạng thái thuê bao'"    column="'subscriptionStatus'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Hợp đồng gốc'"    column="'originContract'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'PO gốc'"    column="'originPo'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Hợp đồng hiện tại'"    column="'contract'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'PO hiện tại'"    column="'po'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Đại lý gốc'"    column="'originAgency'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Đại lý hiện tại'"    column="'agency'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Mã kho'"    column="'locationCode'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Tên kho'"    column="'locationName'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Mô tả thêm'"    column="'description'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Mã số kế toán'"    column="'accountingCode'"></th-content></th>
+                            <th><th-content table="TABLES['devices']" label="'Số phiếu xuất'"    column="'inventoryTransferNumber'"></th-content></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -142,6 +168,33 @@
                                 <span ng-if="device.state == 3">Không hoạt động</span>
                             </td>
                             <td>{{device.activeDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.imei}}</td>
+                            <td>{{device.mac}}</td>
+                            <td>{{device.fw}}</td>
+                            <td>{{device.exportDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.exportCode}}</td>
+                            <td>{{device.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.expiredDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.guaranteeExportDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.guaranteeImportDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.recallDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.pricingCycle}}</td>
+                            <td>{{device.pricingBeginDate| date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.pricingEndDate| date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.pricingPauseDate| date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.pricingChangeDate| date: 'dd/MM/yyyy'}}</td>
+                            <td>{{device.subscriptionStatus}}</td>
+                            <td>{{device.originContract}}</td>
+                            <td>{{device.originPo}}</td>
+                            <td>{{device.contract}}</td>
+                            <td>{{device.po}}</td>
+                            <td>{{device.originAgency}}</td>
+                            <td>{{device.agency}}</td>
+                            <td>{{device.locationCode}}</td>
+                            <td>{{device.locationName}}</td>
+                            <td>{{device.description}}</td>
+                            <td>{{device.accountingCode}}</td>
+                            <td>{{device.inventoryTransferNumber}}</td>
 
                         </tr>
                         </tbody>
@@ -170,4 +223,21 @@
         </div>
     </div>
 </div>
+
+<!--EXPORT TRANSFER-->
+<div class="uk-modal" id="export_table_modal">
+    <div class="uk-modal-dialog uk-modal-dialog-small">
+        <div class="uk-modal-header" style="margin: 0 -24px 0px">
+            <span><span class="uk-modal-title">Export Device</span><a class="uk-modal-close" style="float: right;"><i class="material-icons">&#xE14C;</i></a></span>
+        </div>
+        <hr>
+        <a href={{linkExportDevice}}>Bấm vào đây để tải xuống</a>
+
+        <div class="uk-modal-footer uk-text-right">
+            <button  class="uk-modal-close md-btn  md-btn-default md-btn-small"><span class="uk-text-bold">Cancel</span></button>
+        </div>
+    </div>
+</div>
+<button  data-uk-modal="{target:'#export_table_modal'}"  id="exportTableModal"   ng-show="false"></button>
+<!--END EXPORT-->
 

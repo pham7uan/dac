@@ -17,7 +17,9 @@ import vn.seven.stc.masterdata.models.Device;
 import vn.seven.stc.masterdata.service.DeviceService;
 import vn.seven.stc.umgr.utils.SecurityUtils;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/devices")
@@ -52,5 +54,10 @@ public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
     @RequestMapping(path = "/sync", method = RequestMethod.POST)
     public void updateInformation(@RequestBody List<Device> devices) {
         deviceService.update(devices);
+    }
+
+    @RequestMapping(path = "/export", method = RequestMethod.GET)
+    public Map<String,String> exportTransfer() throws IOException {
+        return deviceService.exportDevice();
     }
 }

@@ -28,4 +28,6 @@ public class Constants {
     public static final Long ROLE_SYSTEM_ADMIN_ID = 1L;
     public static final Long ROLE_ORGANIZATION_ID = 2L;
     public static final Long ROLE_MANAGER_ID = 3L;
+
+    public static final String TEMPLATE_DEVICE_EXPORT = "/template_device_export.xlsx";
 }

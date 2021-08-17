@@ -10,5 +10,6 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry resgistry){
         resgistry.addResourceHandler("/attachment/images/**").addResourceLocations("file:attachment/images/");
+        resgistry.addResourceHandler("/export/device/**").addResourceLocations("file:export/device/");
     }
 }

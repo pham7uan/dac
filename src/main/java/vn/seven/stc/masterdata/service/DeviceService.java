@@ -1,19 +1,14 @@
 package vn.seven.stc.masterdata.service;
 
-import cz.jirutka.rsql.parser.RSQLParser;
-import cz.jirutka.rsql.parser.RSQLParserException;
-import cz.jirutka.rsql.parser.ast.Node;
+
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import vn.seven.stc.core.CrudService;
-import vn.seven.stc.core.rsql.CustomRsqlVisitor;
 import vn.seven.stc.masterdata.models.*;
 import vn.seven.stc.masterdata.repositories.DeviceRepository;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -22,6 +17,7 @@ public class DeviceService extends CrudService<Device, Long> {
     private CustomerService customerService;
     private PricingService pricingService;
     private LocationService locationService;
+    private DeviceExport deviceExport;
 
     @Autowired
     public void setCustomerService(CustomerService customerService) {
@@ -36,6 +32,11 @@ public class DeviceService extends CrudService<Device, Long> {
     @Autowired
     public void setLocationService(LocationService locationService) {
         this.locationService = locationService;
+    }
+
+    @Autowired
+    public void setDeviceExport(DeviceExport deviceExport) {
+        this.deviceExport = deviceExport;
     }
 
     public DeviceService(DeviceRepository deviceRepository){
@@ -62,6 +63,12 @@ public class DeviceService extends CrudService<Device, Long> {
         pricingService.create(pricingMap);
         // todo: create new location
         locationService.create(locationMap);
+    }
+
+    public Map<String,String> exportDevice() throws IOException {
+        Map<String,String> fileName = new HashedMap<>();
+        fileName.put("fileName",deviceExport.exportExcel());
+        return fileName;
     }
 }
 

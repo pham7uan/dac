@@ -30,6 +30,7 @@ public class InitialDataLoader implements
         Common.createDirectory(resource +"/attachment/transfer/");
         Common.createDirectory(resource +"/attachment/uploads/");
         Common.createDirectory(resource +"/attachment/uploads/");
+        Common.createDirectory(resource +"/export/device");
     }
 
 }
