@@ -27,7 +27,8 @@
             productName: "",
             listDs: "",
             state: "",
-            activeDate:""
+            activeDate:"",
+            fromDate : ""
         }
         var columns = {
             'id':'Number',
@@ -155,12 +156,12 @@
 
         $scope.lists = [
             {
-                id: 1,
-                name: "Tất cả"
+                id: 0,
+                name: "Chưa kích hoạt"
             },
             {
-                id: 2,
-                name: "Có ngày kích hoạt"
+                id: 1,
+                name: "Đã kích hoạt"
             }
         ];
         $scope.listConfig = {
@@ -211,32 +212,41 @@
                 var value = this.value();
                 if(value !=null){
                     $scope.input.activeDate = value.getTime()
-                    $timeout(function () {
-                        $scope.TABLES['devices'].filter['activeDate'] = value.getTime();
-                        console.log($scope.TABLES['devices'].filter['activeDate'])
-                    })
                 } else {
                     $scope.input.activeDate = null;
+                }
+            }
+        });
+        $("#fromDatePicker").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            change: function() {
+                var value = this.value();
+                if(value !=null){
+                    $scope.input.fromDate = value.getTime()
+                } else {
+                    $scope.input.fromDate = null;
                 }
             }
         });
 
         // khai bao cau hinh cho bang
         $scope.search = function(){
+            $scope.TABLES['devices'].customParams = ""
+            if ($scope.input.activeDate != null && $scope.input.activeDate != "") {
+                $scope.TABLES['devices'].customParams += "activeDate >=" + $scope.input.activeDate;
+            }
+            if ($scope.input.fromDate != null && $scope.input.activeDate != "") {
+                $scope.TABLES['devices'].customParams += ";activeDate <=" + $scope.input.fromDate;
+            }
             TableController.reloadPage(tableConfig.tableId);    //load du lieu cho table
         }
 
         $scope.mappingColumn = function(table,column, model) {
-            if (column == 'activeDate' && model == 2) {
-                $scope.TABLES[table].customParams = "activeDate!=null";
-            } else {
-                $scope.TABLES[table].filter[column] = model;
-            }
+            $scope.TABLES[table].filter[column] = model;
         }
 
         $scope.linkExportDevice = ''
         $scope.handleExport = function (){
-            console.log('ấdfsdfasf')
             $scope.blockUI();
             Device.exportDevice().then(function (fileName) {
                 $scope.linkExportDevice = fileName;
