@@ -248,7 +248,10 @@
         $scope.linkExportDevice = ''
         $scope.handleExport = function (){
             $scope.blockUI();
-            Device.exportDevice().then(function (fileName) {
+            const query = $scope.getCommonQuery('devices')
+            const q = query.split('&')
+            const param = q[0].split('query=')
+            Device.exportDevice(param[1]).then(function (fileName) {
                 $scope.linkExportDevice = fileName;
                 if ($scope.blockModal != null)
                     $scope.blockModal.hide();

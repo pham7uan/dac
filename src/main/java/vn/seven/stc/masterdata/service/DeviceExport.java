@@ -32,8 +32,7 @@ public class DeviceExport {
         this.deviceRepository = deviceRepository;
     }
 
-    public String exportExcel() throws IOException {
-        List<Device> results = deviceRepository.findAll();
+    public String exportExcel(List<Device> devices) throws IOException {
         String fileName = "export/device/device_export_" + Common.getCurrentDateTime() + ".xlsx";
         ClassLoader classLoader = getClass().getClassLoader();
         String templatePath = Constants.TEMPLATE_DEVICE_EXPORT;;
@@ -45,7 +44,7 @@ public class DeviceExport {
             InputStream inputStream = classLoader.getResourceAsStream("/template" +templatePath);
             raw = new SXSSFWorkbook(new XSSFWorkbook(inputStream),100);
         }
-        genDevice(results,raw,fileName);
+        genDevice(devices,raw,fileName);
         return  fileName;
     }
 

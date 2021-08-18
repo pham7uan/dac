@@ -23,8 +23,8 @@
             });
         }
 
-        function exportDevice() {
-            return $http.get('/api/devices/export').then(function (response) {
+        function exportDevice(param) {
+            return $http.get('/api/devices/export?param=' + param).then(function (response) {
                 return response.data.fileName;
             });
         }

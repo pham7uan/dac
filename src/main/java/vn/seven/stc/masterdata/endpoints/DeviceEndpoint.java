@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -57,7 +59,13 @@ public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
     }
 
     @RequestMapping(path = "/export", method = RequestMethod.GET)
-    public Map<String,String> exportTransfer() throws IOException {
-        return deviceService.exportDevice();
+    public Map<String,String> exportTransfer(@RequestParam String param) throws IOException {
+        Page<Device> page = deviceService.search(param, createPageRequest());
+        return deviceService.exportDevice(page.getContent());
+    }
+
+    private Pageable createPageRequest() {
+        Sort sort = new Sort(Sort.Direction.ASC,"updated");
+        return new PageRequest(0, 1000000,sort);
     }
 }

@@ -65,9 +65,9 @@ public class DeviceService extends CrudService<Device, Long> {
         locationService.create(locationMap);
     }
 
-    public Map<String,String> exportDevice() throws IOException {
+    public Map<String,String> exportDevice(List<Device> devices) throws IOException {
         Map<String,String> fileName = new HashedMap<>();
-        fileName.put("fileName",deviceExport.exportExcel());
+        fileName.put("fileName",deviceExport.exportExcel(devices));
         return fileName;
     }
 }
