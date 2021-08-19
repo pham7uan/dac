@@ -3,10 +3,10 @@
     angular.module('erpApp')
         .controller('DeviceController',DeviceController);
 
-    DeviceController.$inject = ['$rootScope','$scope','$state','$stateParams',
+    DeviceController.$inject = ['$rootScope','$scope','$state','$stateParams','$translate',
         '$timeout','Device', 'AlertService','ErrorHandle','TableController',
         'ComboBoxController', 'Area', 'Customer', 'Pricing', 'Product'];
-    function DeviceController($rootScope,$scope, $state,$stateParams,$timeout,
+    function DeviceController($rootScope,$scope, $state,$stateParams,$timeout,$translate,
                               Device, AlertService, ErrorHandle,TableController,
                               ComboBoxController, Area, Customer, Pricing, Product) {
         $scope.ComboBox = {};
@@ -40,6 +40,15 @@
             'state':'Number',
             'activeDate':'Number'
         };
+
+        $scope.checkColumnAll = false;
+        $scope.checkboxType = "container-checkbox";
+        $scope.myColumns = ['Khu vực', 'Mã khách hàng', 'Serial Number', 'Tên sản phẩm','Gói cước','Trạng thái thiết bị','Ngày kích hoạt','Imei','Mac','Fw','Ngày xuất xưởng','Mã phiếu xuất kho',
+        'Ngày giao hàng','Ngày hết hạn bảo hành', 'Ngày xuất kho bảo hành','Ngày nhập kho bảo hành','Ngày thu hồi thiết bị','Chu kỳ cước','Ngày bắt đầu gói cước','Ngày thanh lý gói cước','Ngày đôi gói cước (rã gói)',
+        'Trạng thái thuê bao','Hợp đồng gốc','PO gốc','Hợp đồng hiện tại', 'PO hiện tại','Đại lý gốc','Đại lý hiện tại','Mã kho','Tên kho','Mô tả thêm','Mã số kế toán','Số phiếu xuất'];
+        $scope.myColumnsShow = [0,1,2,3,4,5,6];
+        $scope.defaultColumn = [0,1,2,3,4,5,6]
+        $scope.defaultSetting = "supplierDefaultColumn";
 
         var customParams = ""; // lay ENDUSER
         var tableConfig = {

@@ -3841,7 +3841,7 @@ erpApp
             restrict: 'EAC',
             replace: true,
             template: '<div class="uk-button-dropdown " data-uk-dropdown="{mode:\'click\'}">' +
-                '<button class="md-btn md-btn-small custom-btn-type">Columns <i class="uk-icon-caret-down"></i></button>' +
+                '<button class="md-btn md-btn-small custom-btn-type">Cột <i class="uk-icon-caret-down"></i></button>' +
                 '<div class="uk-dropdown uk-dropdown-left uk-dropdown-scrollable" style="min-height: 400px">' +
                 '<label class="container-checkbox">All' +
                 '<input ng-model="checkColumnAll" type="checkbox" checked="checked" ng-change="handleColumn()">' +
