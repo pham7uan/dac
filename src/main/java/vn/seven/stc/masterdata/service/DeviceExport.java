@@ -12,9 +12,7 @@ import vn.seven.stc.masterdata.repositories.DeviceRepository;
 
 import java.io.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by hiepnd
@@ -32,7 +30,7 @@ public class DeviceExport {
         this.deviceRepository = deviceRepository;
     }
 
-    public String exportExcel(List<Device> devices) throws IOException {
+    public String exportExcel(List<Device> devices, String column) throws IOException {
         String fileName = "export/device/device_export_" + Common.getCurrentDateTime() + ".xlsx";
         ClassLoader classLoader = getClass().getClassLoader();
         String templatePath = Constants.TEMPLATE_DEVICE_EXPORT;;
@@ -44,16 +42,16 @@ public class DeviceExport {
             InputStream inputStream = classLoader.getResourceAsStream("/template" +templatePath);
             raw = new SXSSFWorkbook(new XSSFWorkbook(inputStream),100);
         }
-        genDevice(devices,raw,fileName);
+        genDevice(devices,raw,fileName, column);
         return  fileName;
     }
 
-    private void genDevice(List<Device> items, SXSSFWorkbook raw, String fileName) throws IOException {
+    private void genDevice(List<Device> items, SXSSFWorkbook raw, String fileName, String column) throws IOException {
         Workbook workbook = raw.getXSSFWorkbook();
 
         Sheet requestSheet = workbook.getSheetAt(0);
 
-        genDetailsSheet(requestSheet,items);
+        genDetailsSheet(requestSheet,items, column);
 
         try {
             FileOutputStream outputStream = new FileOutputStream(fileName);
@@ -66,37 +64,58 @@ public class DeviceExport {
         }
     }
 
-    private void genDetailsSheet(Sheet requestSheet,List<Device> items){
-        Row row = requestSheet.getRow(0);
-        Cell cell = row.getCell(33);
-        CellStyle normalStyle = cell.getCellStyle();
+    private void genDetailsSheet(Sheet requestSheet,List<Device> items, String column){
+        Map<String, String> map = new HashMap<>();
 
         int rowNum = 1;
         int stt = 1;
+        String[] columns = column.split(",");
+
+        for (String c: columns) {
+            map.put(c, c);
+        }
+        Row headerRow = requestSheet.createRow(0);
+        for (int col = 0; col < columns.length; col++) {
+            Cell cell = headerRow.createCell(col);
+            cell.setCellValue(columns[col]);
+        }
+
+        Row row = requestSheet.getRow(1);
+        Cell cell = row.getCell(0);
+        CellStyle normalStyle = cell.getCellStyle();
         for(Device item: items) {
             int columnNum = 0;
             row = requestSheet.createRow(rowNum++);
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getSerial());
+            if (map.containsKey("serial")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getSerial());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getProductName());
+            if (map.containsKey("productName")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getProductName());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getFw());
+            if (map.containsKey("fw")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getFw());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getMac());
+            if (map.containsKey("mac")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getMac());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getImei());
-
+            if (map.containsKey("imei")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getImei());
+            }
             String state = "";
             if (item.getState() == 1) {
                 state = "Xuất xưởng";
@@ -105,117 +124,166 @@ public class DeviceExport {
             } else if (item.getState() == 3) {
                 state = "Không hoạt động";
             }
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(state);
+            if (map.containsKey("state")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(state);
+            }
+            if (map.containsKey("areaName")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getAreaName());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getAreaName());
+            if (map.containsKey("exportDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getExportDate(), "dd/MM/yyyy"));
+            }
+            if (map.containsKey("exportCode")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getExportCode());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getExportDate(),"dd/MM/yyyy"));
+            if (map.containsKey("deliveryDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getDeliveryDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getExportCode());
+            if (map.containsKey("expiredDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getActiveDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getDeliveryDate(),"dd/MM/yyyy"));
+            if (map.containsKey("expiredDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getExpiredDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getActiveDate(),"dd/MM/yyyy"));
+            if (map.containsKey("guaranteeExportDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getGuaranteeExportDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getExpiredDate(),"dd/MM/yyyy"));
+            if (map.containsKey("guaranteeImportDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getGuaranteeImportDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getGuaranteeExportDate(),"dd/MM/yyyy"));
+            if (map.containsKey("recallDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getRecallDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getGuaranteeImportDate(),"dd/MM/yyyy"));
+            if (map.containsKey("customerCode")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getCustomerCode());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getRecallDate(),"dd/MM/yyyy"));
+            if (map.containsKey("pricingCode")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getPricingCode());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getCustomerCode());
+            if (map.containsKey("pricingCycle")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getPricingCycle());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getPricingCode());
+            if (map.containsKey("pricingBeginDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getPricingBeginDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getPricingCycle());
+            if (map.containsKey("pricingEndDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getPricingEndDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getPricingBeginDate(),"dd/MM/yyyy"));
+            if (map.containsKey("pricingPauseDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getPricingPauseDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getPricingEndDate(),"dd/MM/yyyy"));
+            if (map.containsKey("pricingChangeDate")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(Common.convertDateTime(item.getPricingChangeDate(), "dd/MM/yyyy"));
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getPricingPauseDate(),"dd/MM/yyyy"));
+            if (map.containsKey("subscriptionStatus")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getSubscriptionStatus());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(Common.convertDateTime(item.getPricingChangeDate(),"dd/MM/yyyy"));
+            if (map.containsKey("originContract")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getOriginContract());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getSubscriptionStatus());
+            if (map.containsKey("originPo")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getOriginPo());
+            }
+            if (map.containsKey("contract")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getContract());
+            }
+            if (map.containsKey("po")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getPo());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getOriginContract());
+            if (map.containsKey("originAgency")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getOriginAgency());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getOriginPo());
+            if (map.containsKey("locationCode")){
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getLocationCode());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getContract());
+            if (map.containsKey("locationName")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getLocationName());
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getPo());
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getDescription());
+            }
+            if (map.containsKey("accountingCode")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getAccountingCode());
+            }
 
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getOriginAgency());
-
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getLocationCode());
-
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getLocationName());
-
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getDescription());
-
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getAccountingCode());
-
-            cell = row.createCell(columnNum++);
-            cell.setCellStyle(normalStyle);
-            cell.setCellValue(item.getInventoryTransferNumber());
+            if (map.containsKey("inventoryTransferNumber")) {
+                cell = row.createCell(columnNum++);
+                cell.setCellStyle(normalStyle);
+                cell.setCellValue(item.getInventoryTransferNumber());
+            }
 
             stt++;
         }

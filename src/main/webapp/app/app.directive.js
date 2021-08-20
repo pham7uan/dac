@@ -3849,8 +3849,8 @@ erpApp
                 '</label>'+
                 '<ul class="uk-nav uk-nav-dropdown" ng-repeat="c in myColumns">' +
                 '<li class="checkbox-padding-left">' +
-                '<label ng-class="checkboxType">{{c}}' +
-                '<input ng-model=myColumnsShow[$index] type="checkbox" checked="checked" ng-change="handleColumn()">' +
+                '<label ng-class="checkboxType">{{c.label}}' +
+                '<input ng-model=columnVisible[c.column] type="checkbox" checked="checked" ng-change="handleColumn()">' +
                 '<span class="checkmark"></span>' +
                 '</label></li> </ul> </div> </div>',
             scope: {
@@ -3859,16 +3859,16 @@ erpApp
                 defaultSetting: '=',
                 checkColumnAll: '=',
                 checkboxType: '=',
-                myColumnsShow: '=',
+                columnVisible: '=',
             },
             link: function(scope, element, attrs) {
                 scope.checkboxType = "container-checkbox";
                 scope.checkColumnAll = false;
                 if(window.localStorage.getItem(scope.defaultSetting) !=null){
-                    scope.myColumnsShow = JSON.parse(window.localStorage.getItem(scope.defaultSetting))
+                    scope.columnVisible = JSON.parse(window.localStorage.getItem(scope.defaultSetting))
                     var checked = 0;
-                    for(var i=0; i<scope.myColumnsShow.length; i ++){
-                        if (scope.myColumnsShow[i]){
+                    for(var i=0; i<scope.columnVisible.length; i ++){
+                        if (scope.columnVisible[i]){
                             checked++;
                         }
                     }
@@ -3878,34 +3878,36 @@ erpApp
                     }
                 } else {
                     for (var i = 0; i < scope.myColumns.length; i++) {
-                        scope.myColumnsShow.push(false)
+                        scope.columnVisible[scope.myColumns[i].column] = false
                     }
                     for (var i = 0; i < scope.defaultColumn.length; i++) {
-                        scope.myColumnsShow[scope.defaultColumn[i]] = true
+                        scope.columnVisible[scope.defaultColumn[i]] = true
                     }
                 }
+
                 scope.handleColumn = function handleColumn() {
                     if (scope.checkColumnAll) {
-                        for (var i = 0; i < scope.myColumnsShow.length; i++) {
-                            scope.myColumnsShow[i] = true
+                        for (var i = 0; i < scope.columnVisible.length; i++) {
+                            scope.columnVisible[i] = true
                             scope.checkboxType = "container-checkbox-dis"
                         }
                     } else {
                         scope.checkboxType = "container-checkbox"
                     }
-                    window.localStorage.setItem(scope.defaultSetting,JSON.stringify(scope.myColumnsShow))
+                    console.log(JSON.stringify(scope.columnVisible))
+                    window.localStorage.setItem(scope.defaultSetting,JSON.stringify(scope.columnVisible))
                 }
 
                 scope.checkColumn = function () {
                     if (scope.checkColumnAll) {
-                        for (var i = 0; i < scope.myColumnsShow.length; i++) {
-                            scope.myColumnsShow[i] = true
+                        for (var i = 0; i < scope.columnVisible.length; i++) {
+                            scope.columnVisible[i] = true
                             scope.checkboxType = "container-checkbox-dis"
                         }
                     } else {
                         scope.checkboxType = "container-checkbox"
                     }
-                    window.localStorage.setItem(scope.defaultSetting,JSON.stringify(scope.myColumnsShow))
+                    window.localStorage.setItem(scope.defaultSetting,JSON.stringify(scope.columnVisible))
                 }
             }
         };

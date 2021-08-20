@@ -3,10 +3,10 @@
     angular.module('erpApp')
         .controller('DeviceController',DeviceController);
 
-    DeviceController.$inject = ['$rootScope','$scope','$state','$stateParams','$translate',
+    DeviceController.$inject = ['$rootScope','$scope','$state','$stateParams',
         '$timeout','Device', 'AlertService','ErrorHandle','TableController',
         'ComboBoxController', 'Area', 'Customer', 'Pricing', 'Product'];
-    function DeviceController($rootScope,$scope, $state,$stateParams,$timeout,$translate,
+    function DeviceController($rootScope,$scope, $state,$stateParams,$timeout,
                               Device, AlertService, ErrorHandle,TableController,
                               ComboBoxController, Area, Customer, Pricing, Product) {
         $scope.ComboBox = {};
@@ -43,11 +43,44 @@
 
         $scope.checkColumnAll = false;
         $scope.checkboxType = "container-checkbox";
-        $scope.myColumns = ['Khu vực', 'Mã khách hàng', 'Serial Number', 'Tên sản phẩm','Gói cước','Trạng thái thiết bị','Ngày kích hoạt','Imei','Mac','Fw','Ngày xuất xưởng','Mã phiếu xuất kho',
-        'Ngày giao hàng','Ngày hết hạn bảo hành', 'Ngày xuất kho bảo hành','Ngày nhập kho bảo hành','Ngày thu hồi thiết bị','Chu kỳ cước','Ngày bắt đầu gói cước','Ngày thanh lý gói cước','Ngày đôi gói cước (rã gói)',
-        'Trạng thái thuê bao','Hợp đồng gốc','PO gốc','Hợp đồng hiện tại', 'PO hiện tại','Đại lý gốc','Đại lý hiện tại','Mã kho','Tên kho','Mô tả thêm','Mã số kế toán','Số phiếu xuất'];
-        $scope.myColumnsShow = [0,1,2,3,4,5,6];
-        $scope.defaultColumn = [0,1,2,3,4,5,6]
+        $scope.myColumns = [
+            {column: 'areaName', label: 'Khu vực'},
+            {column: 'customerCode', label: 'Mã khách hàng'},
+            {column: 'serial', label: 'Serial Number'},
+            {column: 'productName', label: 'Tên sản phẩm'},
+            {column: 'pricingCode', label: 'Gói cước'},
+            {column: 'state', label: 'Trạng thái thiết bị'},
+            {column: 'activeDate', label: 'Ngày kích hoạt'},
+            {column: 'imei', label: 'Imei'},
+            {column: 'mac', label: 'Mac'},
+            {column: 'fw', label: 'Fw'},
+            {column: 'exportDate', label: 'Ngày xuất xưởng'},
+            {column: 'exportCode', label: 'Mã phiếu xuất kho'},
+            {column: 'deliveryDate', label: 'Ngày giao hàng'},
+            {column: 'expiredDate', label: 'Ngày hết hạn bảo hành'},
+            {column: 'guaranteeExportDate', label: 'Ngày xuất kho bảo hành'},
+            {column: 'guaranteeImportDate', label: 'Ngày nhập kho bảo hành'},
+            {column: 'recallDate', label: 'Ngày thu hồi thiết bị'},
+            {column: 'pricingCycle', label: 'Chu kỳ cước'},
+            {column: 'pricingBeginDate', label: 'Ngày bắt đầu gói cước'},
+            {column: 'pricingEndDate', label: 'Ngày thanh lý gói cước'},
+            {column: 'pricingPauseDate', label: 'Ngày tạm ngưng gói cước'},
+            {column: 'pricingChangeDate', label: 'Ngày đôi gói cước (rã gói)'},
+            {column: 'subscriptionStatus', label: 'Trạng thái thuê bao'},
+            {column: 'originContract', label: 'Hợp đồng gốc'},
+            {column: 'originPo', label: 'PO gốc'},
+            {column: 'contract', label: 'Hợp đồng hiện tại'},
+            {column: 'po', label: 'PO hiện tại'},
+            {column: 'originAgency', label: 'Đại lý gốc'},
+            {column: 'agency', label: 'Đại lý hiện tại'},
+            {column: 'locationCode', label: 'Mã kho'},
+            {column: 'locationName', label: 'Tên kho'},
+            {column: 'description', label: 'Mô tả thêm'},
+            {column: 'accountingCode', label: 'Mã số kế toán'},
+            {column: 'inventoryTransferNumber', label: 'Số phiếu xuất'}
+        ];
+        $scope.columnVisible = {};
+        $scope.defaultColumn = ['areaName', 'customerCode', 'serial', 'productName', 'pricingCode', 'state', 'activeDate']
         $scope.defaultSetting = "supplierDefaultColumn";
 
         var customParams = ""; // lay ENDUSER
@@ -257,15 +290,21 @@
         $scope.linkExportDevice = ''
         $scope.handleExport = function (){
             $scope.blockUI();
+            let column = "";
+            Object.entries($scope.columnVisible).forEach(element => {
+                if (element[1] == true) {
+                    column += element[0] + ","
+                }
+            })
             const query = $scope.getCommonQuery('devices')
             const q = query.split('&')
             const param = q[0].split('query=')
-            Device.exportDevice(param[1]).then(function (fileName) {
+            Device.exportDevice(param[1], column).then(function (fileName) {
                 $scope.linkExportDevice = fileName;
                 if ($scope.blockModal != null)
                     $scope.blockModal.hide();
                 $timeout(function () {
-                    angular.element("#exportTableModal").trigger("click");
+                    angular.element("#exportModal").trigger("click");
                 });
             }).catch(function(data){
                 if ($scope.blockModal != null)

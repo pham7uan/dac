@@ -58,10 +58,10 @@ public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
         deviceService.update(devices);
     }
 
-    @RequestMapping(path = "/export", method = RequestMethod.GET)
-    public Map<String,String> exportTransfer(@RequestParam String param) throws IOException {
+    @RequestMapping(path = "/export/{column}", method = RequestMethod.GET)
+    public Map<String,String> exportTransfer(@RequestParam String param, @PathVariable String column) throws IOException {
         Page<Device> page = deviceService.search(param, createPageRequest());
-        return deviceService.exportDevice(page.getContent());
+        return deviceService.exportDevice(page.getContent(), column);
     }
 
     private Pageable createPageRequest() {
