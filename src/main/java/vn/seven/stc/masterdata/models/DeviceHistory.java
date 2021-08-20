@@ -1,12 +1,29 @@
 package vn.seven.stc.masterdata.models;
 
-public class DevicePub  {
+import vn.seven.stc.core.IdEntity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "master_device_history")
+public class DeviceHistory extends IdEntity {
+    private Long deviceId;
     private String serial;
+    private String imei;
+    private String mac;
+    private String productName;
+    private String fw;
     private Integer state = DeviceState.EXPORTED;  //trạng thái thiết bị
     private Long areaId;                            // khu vực
     private String areaName;
+    private Long exportDate;                        // ngày xuất xưởng
+    private String exportCode;                      // mã phiếu xuất kho
     private Long deliveryDate;                      // ngày giao hàng
+    private Long activeDate;                        // ngày kích hoạt
     private Long expiredDate;                       // ngày hết hạn bảo hành
+    private Long guaranteeExportDate;               // Ngày xuất kho bảo hành
+    private Long guaranteeImportDate;               // Ngày nhập kho bảo hành
     private Long recallDate;                        // ngày thu hồi thiết bị
     private String customerCode;                    // Mã khách hàng
     private String pricingCode;                     // gói cước
@@ -16,11 +33,54 @@ public class DevicePub  {
     private Long pricingPauseDate;                  // Ngày tạm ngưng gói cước
     private Long pricingChangeDate;                 // Ngày đôi gói cước (rã gói)
     private String subscriptionStatus;              // Trạng thái thuê bao
+    private String originContract;                  // Hợp đồng gốc
+    private String originPo;                        // PO gốc
+    private String contract;                        // Hợp đồng hiện tại
+    private String po;                              // PO hiện tại
     private String originAgency;                    // Đại lý gốc
     private String agency;                          // Đại lý hiện tại
     private String locationCode;                    // Mã kho
     private String locationName;                    // Tên kho
+    private String description;                     // Mô tả thêm
+    private String accountingCode;                  // Mã số kế toán
+    private String inventoryTransferNumber;         // Số phiếu xuất
     private Integer customerType = 1;               //1 Khách hàng hiện hữu/ 2 khách hàng mới
+    private Long contractId;
+    private Long projectId;
+    private String project;
+    private Long originContractId;
+
+    public Long getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public Long getOriginContractId() {
+        return originContractId;
+    }
+
+    public void setOriginContractId(Long originContractId) {
+        this.originContractId = originContractId;
+    }
 
     public String getSerial() {
         return serial;
@@ -28,6 +88,38 @@ public class DevicePub  {
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getFw() {
+        return fw;
+    }
+
+    public void setFw(String fw) {
+        this.fw = fw;
     }
 
     public Integer getState() {
@@ -54,6 +146,22 @@ public class DevicePub  {
         this.areaName = areaName;
     }
 
+    public Long getExportDate() {
+        return exportDate;
+    }
+
+    public void setExportDate(Long exportDate) {
+        this.exportDate = exportDate;
+    }
+
+    public String getExportCode() {
+        return exportCode;
+    }
+
+    public void setExportCode(String exportCode) {
+        this.exportCode = exportCode;
+    }
+
     public Long getDeliveryDate() {
         return deliveryDate;
     }
@@ -62,12 +170,44 @@ public class DevicePub  {
         this.deliveryDate = deliveryDate;
     }
 
+    public Long getActiveDate() {
+        return activeDate;
+    }
+
+    public void setActiveDate(Long activeDate) {
+        this.activeDate = activeDate;
+    }
+
     public Long getExpiredDate() {
         return expiredDate;
     }
 
     public void setExpiredDate(Long expiredDate) {
         this.expiredDate = expiredDate;
+    }
+
+    public Long getGuaranteeExportDate() {
+        return guaranteeExportDate;
+    }
+
+    public void setGuaranteeExportDate(Long guaranteeExportDate) {
+        this.guaranteeExportDate = guaranteeExportDate;
+    }
+
+    public Long getGuaranteeImportDate() {
+        return guaranteeImportDate;
+    }
+
+    public void setGuaranteeImportDate(Long guaranteeImportDate) {
+        this.guaranteeImportDate = guaranteeImportDate;
+    }
+
+    public String getInventoryTransferNumber() {
+        return inventoryTransferNumber;
+    }
+
+    public void setInventoryTransferNumber(String inventoryTransferNumber) {
+        this.inventoryTransferNumber = inventoryTransferNumber;
     }
 
     public Long getRecallDate() {
@@ -142,6 +282,38 @@ public class DevicePub  {
         this.subscriptionStatus = subscriptionStatus;
     }
 
+    public String getOriginContract() {
+        return originContract;
+    }
+
+    public void setOriginContract(String originContract) {
+        this.originContract = originContract;
+    }
+
+    public String getOriginPo() {
+        return originPo;
+    }
+
+    public void setOriginPo(String originPo) {
+        this.originPo = originPo;
+    }
+
+    public String getContract() {
+        return contract;
+    }
+
+    public void setContract(String contract) {
+        this.contract = contract;
+    }
+
+    public String getPo() {
+        return po;
+    }
+
+    public void setPo(String po) {
+        this.po = po;
+    }
+
     public String getOriginAgency() {
         return originAgency;
     }
@@ -174,11 +346,35 @@ public class DevicePub  {
         this.locationName = locationName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAccountingCode() {
+        return accountingCode;
+    }
+
+    public void setAccountingCode(String accountingCode) {
+        this.accountingCode = accountingCode;
+    }
+
     public Integer getCustomerType() {
         return customerType;
     }
 
     public void setCustomerType(Integer customerType) {
         this.customerType = customerType;
+    }
+
+    public Long getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
     }
 }

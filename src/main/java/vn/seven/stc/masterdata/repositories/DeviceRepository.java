@@ -6,8 +6,9 @@ import vn.seven.stc.masterdata.models.Customer;
 import vn.seven.stc.masterdata.models.Device;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface DeviceRepository extends CustomJpaRepository<Device, Long> {
-
+    List<Device> findAllBySerialIn(Set<String> serials);
 }

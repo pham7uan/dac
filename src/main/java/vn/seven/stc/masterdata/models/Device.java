@@ -14,8 +14,10 @@ public class Device extends IdEntity {
     private String productName;
     private String fw;
     private Integer state = DeviceState.EXPORTED;  //trạng thái thiết bị
-    private Long areaId;                            // khu vực
+    private Long areaId;                            // khu vực theo đơn hàng
     private String areaName;
+    private Long currentAreaId;                     // khu vực theo ĐHSX
+    private String currentAreaName;
     private Long exportDate;                        // ngày xuất xưởng
     private String exportCode;                      // mã phiếu xuất kho
     private Long deliveryDate;                      // ngày giao hàng
@@ -367,5 +369,21 @@ public class Device extends IdEntity {
 
     public void setCustomerType(Integer customerType) {
         this.customerType = customerType;
+    }
+
+    public Long getCurrentAreaId() {
+        return currentAreaId;
+    }
+
+    public void setCurrentAreaId(Long currentAreaId) {
+        this.currentAreaId = currentAreaId;
+    }
+
+    public String getCurrentAreaName() {
+        return currentAreaName;
+    }
+
+    public void setCurrentAreaName(String currentAreaName) {
+        this.currentAreaName = currentAreaName;
     }
 }

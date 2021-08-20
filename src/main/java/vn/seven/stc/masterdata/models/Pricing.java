@@ -14,7 +14,7 @@ public class Pricing extends IdEntity {
     public Pricing() {
     }
 
-    public Pricing(Device device) {
+    public Pricing(DevicePubic device) {
         setCode(device.getPricingCode());
         setCycle(device.getPricingCycle());
     }

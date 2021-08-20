@@ -21,10 +21,10 @@ public class Location extends IdEntity {
     public Location() {
     }
 
-    public Location(Device device) {
-        setName(device.getAreaName());
+    public Location(DevicePubic device) {
+        setName(device.getCurrentAreaName());
         setCode(device.getLocationCode());
-        setAreaId(device.getAreaId());
+        setAreaId(device.getCurrentAreaId());
     }
 
     public String getCode() {

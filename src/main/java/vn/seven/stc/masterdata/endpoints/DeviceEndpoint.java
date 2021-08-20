@@ -1,12 +1,16 @@
 package vn.seven.stc.masterdata.endpoints;
 
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.*;
 import vn.seven.stc.config.ApplicationProperties;
+import vn.seven.stc.core.ApiCode;
+import vn.seven.stc.core.ApiResponse;
 import vn.seven.stc.core.CrudApiEndpoint;
 import vn.seven.stc.masterdata.models.Device;
+import vn.seven.stc.masterdata.models.DevicePubic;
 import vn.seven.stc.masterdata.service.DeviceService;
 import vn.seven.stc.umgr.utils.SecurityUtils;
 
@@ -43,7 +47,15 @@ public class DeviceEndpoint extends CrudApiEndpoint<Device, Long> {
     }
 
     @RequestMapping(path = "/sync", method = RequestMethod.POST)
-    public void updateInformation(@RequestBody List<Device> devices) {
-        deviceService.update(devices);
+    public ApiResponse updateInformation(@RequestBody List<DevicePubic> devicePubic) {
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            apiResponse = deviceService.update(devicePubic,apiResponse);
+        } catch (Exception e){
+            e.printStackTrace();
+            apiResponse.setCode(ApiCode.FAIL);
+            apiResponse.setMessage(ApiCode.MSG_500);
+        }
+        return apiResponse;
     }
 }

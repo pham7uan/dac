@@ -1,7 +1,9 @@
 package vn.seven.stc.masterdata.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.seven.stc.core.ApiResponse;
 import vn.seven.stc.core.CrudService;
 import vn.seven.stc.masterdata.models.*;
 import vn.seven.stc.masterdata.repositories.DeviceRepository;
@@ -34,26 +36,49 @@ public class DeviceService extends CrudService<Device, Long> {
         this.repository = this.deviceRepository = deviceRepository;
     }
 
-    public void update(List<Device> devices){
+    public ApiResponse update(List<DevicePubic> devicePubic, ApiResponse apiResponse){
+        // validate data
+        if(validateDevicePublic(devicePubic,apiResponse)){
+            // prepare data
+            Map<String, DevicePubic> pubicMap = prepareData(devicePubic);
+            // save data
+            save(pubicMap);
+        };
+        return apiResponse;
+    }
+
+    private Map<String, DevicePubic> prepareData(List<DevicePubic> devicePubic){
+        Map<String, DevicePubic> pubicMap = new HashMap<>();    // map các serial được cập nhật
         Set<String> customerCode = new HashSet<>();
         Map<String, Pricing> pricingMap = new HashMap<>();
         Map<String, Location> locationMap = new HashMap<>();
-        for(Device device: devices){
-            beforeUpdate(device);
-            // todo: get list customer code, pricing Map, locationMap
-            customerCode.add(device.getCustomerCode());
-            pricingMap.put(device.getPricingCode(),  new Pricing(device));
-            locationMap.put(device.getLocationCode(), new Location(device));
+        for(DevicePubic pub: devicePubic){
+            pubicMap.put(pub.getSerial(), pub);
+            customerCode.add(pub.getCustomerCode());
+            pricingMap.put(pub.getPricingCode(),  new Pricing(pub));
+            locationMap.put(pub.getLocationCode(), new Location(pub));
         }
-
-        repository.save(devices);
-
-        // todo: create new customer
         customerService.create(customerCode);
-        // todo: create new Pricing
         pricingService.create(pricingMap);
-        // todo: create new location
         locationService.create(locationMap);
+        return pubicMap;
+    }
+
+    private void save(Map<String, DevicePubic> pubicMap){
+        Set<String> serials = new HashSet<String>(pubicMap.keySet());    // lấy danh sách serial từ map
+        List<Device> devices = deviceRepository.findAllBySerialIn(serials);  // Lấy danh sách device từ Database
+        if(devices.size() > 0){
+            for(Device d: devices){
+                DevicePubic pubic = pubicMap.get(d.getSerial());
+                BeanUtils.copyProperties(pubic,d);                              // Cập nhật thông tin
+                beforeUpdate(d);
+            }
+            deviceRepository.save(devices);
+        }
+    }
+
+    private Boolean validateDevicePublic(List<DevicePubic> devicePubic, ApiResponse apiResponse){
+        return true;
     }
 }
 
