@@ -76,13 +76,28 @@
 
                     </div>
                     <div class="uk-width-small-2-6">
-                        <b>Tên sản phẩm</b>
-                        <input id="productName"
+                        <b>Ngày kích hoạt thiết bị từ </b>
+                        <input id="activeDatePicker"
+                               placeholder="nhập ngày kích hoạt..."
+                               style="width: 100%;"/>
+                    </div>
+                    <div class="uk-width-small-2-6">
+                        <b>Đến</b>
+                        <input id="fromDatePicker"
+                               placeholder="nhập ngày kích hoạt..."
+                               style="width: 100%;"/>
+                    </div>
+
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-small-2-6">
+                        <b>Trạng thái thiết bị</b>
+                        <input id="state"
                                position="bottom"
-                               config="productConfig"
-                               options="products"
-                               ng-model="input.productName"
-                               ng-change="mappingColumn('devices', 'productName', input.productName)"
+                               config="stateConfig"
+                               options="states"
+                               ng-model="input.state"
+                               ng-change="mappingColumn('devices', 'state', input.state)"
                                data-parsley-trigger="focusout"
                                selectize="">
                     </div>
@@ -97,31 +112,7 @@
                                data-parsley-trigger="focusout"
                                selectize="">
                     </div>
-                </div>
-                <div class="uk-grid">
-                    <div class="uk-width-small-2-6">
-                        <b>Trạng thái thiết bị</b>
-                        <input id="state"
-                               position="bottom"
-                               config="stateConfig"
-                               options="states"
-                               ng-model="input.state"
-                               ng-change="mappingColumn('devices', 'state', input.state)"
-                               data-parsley-trigger="focusout"
-                               selectize="">
-                    </div>
-                    <div class="uk-width-small-1-5">
-                        <b>Ngày kích hoạt thiết bị từ </b>
-                        <input id="activeDatePicker"
-                               placeholder="nhập ngày kích hoạt..."
-                               style="width: 100%;"/>
-                    </div>
-                    <div class="uk-width-small-1-5">
-                        <b>Đến</b>
-                        <input id="fromDatePicker"
-                               placeholder="nhập ngày kích hoạt..."
-                               style="width: 100%;"/>
-                    </div>
+
                 </div>
                 <div class="uk-grid" data-uk-grid-margin="">
                     <div class="uk-width-small-1-5">
