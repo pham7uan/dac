@@ -128,7 +128,7 @@
                         <tbody ng-if="deviceImports != null && deviceImports.length > 0">
                         <tr ng-repeat="deviceImport in deviceImports">
                             <td>
-                                {{ $index + 1 + TABLES['deviceImports'].selectize_pageNum*TABLES['deviceImports'].param_current_page}}
+                                {{$index + 1 + TABLES['deviceImports'].selectize_pageNum*TABLES['deviceImports'].param_current_page}}
                             </td>
                             <td>{{deviceImport.areaName}}</td>
                             <td>{{deviceImport.serial}}</td>

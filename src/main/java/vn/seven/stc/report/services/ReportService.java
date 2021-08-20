@@ -66,13 +66,13 @@ public class ReportService extends CrudService<Device, Long> {
         sql.append("d.pricing_pause_date, d.pricing_change_date, d.active FROM master_devices AS d WHERE 1=1 ");
 
         if (searchReportInfo.getAreaIds() != null && searchReportInfo.getAreaIds().size() > 0){
-            sql.append(" AND (area_id IN :areaIds) ");
+            sql.append(" AND area_id IN :areaIds ");
         }
         if (searchReportInfo.getContractIds() != null && searchReportInfo.getContractIds().size() > 0){
-            sql.append(" AND (contract_id :contractIds) ");
+            sql.append(" AND contract_id IN :contractIds ");
         }
         if (searchReportInfo.getProjectIds() != null && searchReportInfo.getProjectIds().size() > 0){
-            sql.append(" AND (project_id :projectIds) ");
+            sql.append(" AND project_id IN :projectIds ");
         }
         if (searchReportInfo.getHasActive().equals(1)){
             sql.append(" AND pricing_code IS NOT NULL");
@@ -108,16 +108,16 @@ public class ReportService extends CrudService<Device, Long> {
         Integer active;
         for (Object object : query.getResultList()){
             Device device = new Device();
-            device.setAreaName((((Object[]) object)[0]).toString());
-            device.setSerial((((Object[]) object)[1]).toString());
-            device.setMac((((Object[]) object)[2]).toString());
-            device.setProductName((((Object[]) object)[3]).toString());
-            device.setFw((((Object[]) object)[4]).toString());
+            device.setAreaName((((Object[]) object)[0]) != null ? (((Object[]) object)[0]).toString() : null);
+            device.setSerial((((Object[]) object)[1]) != null ? (((Object[]) object)[1]).toString() : null);
+            device.setMac((((Object[]) object)[2]) != null ? (((Object[]) object)[2]).toString() : null);
+            device.setProductName((((Object[]) object)[3]) != null ? (((Object[]) object)[3]).toString() : null);
+            device.setFw((((Object[]) object)[4]) != null ? (((Object[]) object)[4]).toString() : null);
             device.setActiveDate((((Object[]) object)[5]) != null ? Long.valueOf((((Object[]) object)[5]).toString()) : null);
-            device.setContract((((Object[]) object)[6]).toString());
-            device.setPo((((Object[]) object)[7]).toString());
-            device.setExportCode((((Object[]) object)[8]).toString());
-            device.setPricingCode((((Object[]) object)[9]).toString());
+            device.setContract((((Object[]) object)[6]) != null ? (((Object[]) object)[6]).toString() : null);
+            device.setPo((((Object[]) object)[7]) != null ? (((Object[]) object)[7]).toString() : null);
+            device.setExportCode((((Object[]) object)[8]) != null ? (((Object[]) object)[8]).toString() : null);
+            device.setPricingCode((((Object[]) object)[9]) != null ? (((Object[]) object)[9]).toString() : null);
             device.setPricingBeginDate((((Object[]) object)[10]) != null ? Long.valueOf((((Object[]) object)[10]).toString()) : null);
             device.setPricingEndDate((((Object[]) object)[11]) != null ? Long.valueOf((((Object[]) object)[11]).toString()) : null);
             device.setPricingPauseDate((((Object[]) object)[12]) != null ? Long.valueOf((((Object[]) object)[12]).toString()) : null);

@@ -7,10 +7,10 @@
         '$timeout', 'AlertService',
         '$translate','ErrorHandle',
         'TableController','ComboBoxController','Report'];
-    function ReportActiveController($rootScope,$scope, $state,$http,$window,$filter,
+    function ReportActiveController($rootScope,$scope, $state, $http, $window, $filter,
                                     $timeout, AlertService,
                                     $translate, ErrorHandle,
-                                    TableController,ComboBoxController,Report) {
+                                    TableController, ComboBoxController, Report) {
         //Lấy ngày hiện tại
         function genDateTime(time){
             var date= $filter('date')(time, 'dd/MM/yyyy');
@@ -211,7 +211,7 @@
             tableConfig.customParams = customParams();
             tableConfig.page_size_option = ["5", "10", "25", "50"] ;
             tableConfig.selectize_pageNum = $scope.pageNum;
-            // tableConfig.loadFunction = DeviceImport.getPage;
+            tableConfig.loadFunction = Report.getPage;
             TableController.initTable($scope, tableConfig);
             TableController.sortDefault(tableConfig.tableId);
             TableController.reloadPage(tableConfig.tableId);
@@ -219,14 +219,14 @@
 
         let customParams = function() {
             let params = "";
-            if($scope.searchInfo.hasActive == 0) {
-                params += "activeDate==null;";
-            }
             if($scope.searchInfo.hasActive == 1) {
-                params += "activeDate!=null;";
+                params += "pricingCode!=null;";
+            }
+            if($scope.searchInfo.hasActive == 2) {
+                params += "pricingCode==null;";
             }
             if($scope.searchInfo.areaIds.length > 0) {
-                params += "(areaId=in=("+$scope.searchInfo.areaIds+"),realArea=in=("+$scope.searchInfo.areaIds+"));";
+                params += "areaId=in=("+$scope.searchInfo.areaIds+");";
             }
             if($scope.searchInfo.activeStartDate != null && $scope.searchInfo.activeStartDate != "") {
                 params += "activeDate>=("+$scope.searchInfo.activeStartDate+");";

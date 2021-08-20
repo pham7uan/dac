@@ -9,7 +9,8 @@
     function Report ($http) {
         var service = {
             exportReportActive: exportReportActive,
-            getReportDevice: getReportDevice
+            getReportDevice: getReportDevice,
+            getPage: getPage
         };
 
         return service;
@@ -22,6 +23,12 @@
         function getReportDevice(searchInfo){
             return $http.post('/api/report/active-device', searchInfo).then(function (response){
                return response.data;
+            });
+        }
+
+        function getPage(params) {
+            return $http.get('/api/report/search?' + params).then(function (response) {
+                return response;
             });
         }
     }

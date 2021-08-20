@@ -354,7 +354,7 @@
                 <textElement verticalAlignment="Middle">
                     <font fontName="DejaVu Sans" isBold="true" isItalic="true"/>
                 </textElement>
-                <textFieldExpression><![CDATA[($P{CONTRACT_IDS}.size() != 0)?"Tổng số lượng thiết bị theo hợp đồng: " + $V{TOTAL_CONTRACTS} :""]]></textFieldExpression>
+                <textFieldExpression><![CDATA["Tổng số lượng thiết bị theo hợp đồng: " + $V{TOTAL_CONTRACTS}]]></textFieldExpression>
             </textField>
         </band>
     </title>
