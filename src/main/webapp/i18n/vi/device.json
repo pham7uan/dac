@@ -1,0 +1,12 @@
+{
+  "device": {
+    "column": {
+      "areaName" : "Khu vực",
+      "customerCode": "Mã khách hàng",
+      "serial" : "Serial Number",
+      "productName": "Tên sản sản phẩm",
+      "pricingCode" : "Gói cước",
+
+    }
+  }
+}

@@ -19,13 +19,12 @@ import java.util.Set;
  * Contact me via mail hiepnd@vnpt-technology.vn
  */
 @Service
-public class CustomerService {
+public class CustomerService extends CrudService<Customer, Long>{
 
     private CustomerRepository customerRepository;
 
-    @Autowired
-    public void setCustomerRepository(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerService(CustomerRepository repository){
+        this.customerRepository = repository;
     }
 
     public void create(Set<String> customerCode){

@@ -1,0 +1,253 @@
+<div id="page_content">
+    <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }" class="header-fixed">
+
+        <div class="heading_actions action-padding-top">
+            <column-option
+                    my-columns="myColumns"
+                    default-column="defaultColumn"
+                    default-setting="defaultSetting"
+                    check-column-all="checkColumnAll"
+                    checkbox-type="checkboxType"
+                    column-visible="columnVisible">
+            </column-option>
+        </div>
+
+        <span class="route-header">
+            <a class="uk-text-primary">Thiết Bị</a>&nbsp;<i class="uk-icon-arrow-circle-right"></i>
+            <span>Danh sách thiết bị</span>
+        </span>
+        </br>
+        <div class="uk-margin-small-top">
+            <a id="btnImport" class="md-btn md-btn-small md-btn-primary">
+                <span class="uk-text-bold" data-translate="global.button.export" ng-click="handleExport()"></span>
+            </a>
+        </div>
+    </div>
+    <div id="page_content_inner">
+        <jhi-alert></jhi-alert><modal-alert></modal-alert>
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-grid" data-uk-grid-margin="">
+                    <div class="uk-width-small-2-6">
+                        <b>Khu vực</b>
+                        <input id="area"
+                               position="bottom"
+                               config="areaConfig"
+                               options="areaes"
+                               ng-model="input.areaIds"
+                               ng-change="mappingColumn('devices', 'areaId', input.areaIds)"
+                               data-parsley-trigger="focusout"
+                               selectize="">
+                    </div>
+                    <div class="uk-width-small-2-6">
+                        <b>Mã khách hàng</b>
+                        <input id="customerCode"
+                               position="bottom"
+                               config="customerConfig"
+                               options="customers"
+                               ng-model="input.customerCode"
+                               ng-change="mappingColumn('devices', 'customerCode', input.customerCode)"
+                               data-parsley-trigger="focusout"
+                               selectize="">
+                    </div>
+                    <div class="uk-width-small-2-6">
+                        <b>Gói cước</b>
+                        <input id="pricingCode"
+                               position="bottom"
+                               config="pricingConfig"
+                               options="pricings"
+                               ng-model="input.pricingCode"
+                               ng-change="mappingColumn('devices', 'pricingCode', input.pricingCode)"
+                               data-parsley-trigger="focusout"
+                               selectize="">
+                    </div>
+                </div>
+
+                <div class="uk-grid" data-uk-grid-margin="">
+                    <div class="uk-width-small-2-6">
+                        <b>Serial Number</b>
+                        <input id="serialCbx" name="serialCbx"
+                               position="bottom"
+                               config="ComboBox['serial'].config"
+                               options="ComboBox['serial'].options"
+                               ng-model="input.serial"
+                               ng-change="mappingColumn('devices', 'serial', input.serial)"
+                               scope-controller="ComboBox['serial'].scope" selectize>
+
+                    </div>
+                    <div class="uk-width-small-2-6">
+                        <b>Ngày kích hoạt thiết bị từ </b>
+                        <input id="activeDatePicker"
+                               placeholder="nhập ngày kích hoạt..."
+                               style="width: 100%;"/>
+                    </div>
+                    <div class="uk-width-small-2-6">
+                        <b>Đến</b>
+                        <input id="fromDatePicker"
+                               placeholder="nhập ngày kích hoạt..."
+                               style="width: 100%;"/>
+                    </div>
+
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-small-2-6">
+                        <b>Trạng thái thiết bị</b>
+                        <input id="state"
+                               position="bottom"
+                               config="stateConfig"
+                               options="states"
+                               ng-model="input.state"
+                               ng-change="mappingColumn('devices', 'state', input.state)"
+                               data-parsley-trigger="focusout"
+                               selectize="">
+                    </div>
+                    <div class="uk-width-small-2-6">
+                        <b>Danh sách</b>
+                        <input id="listDs"
+                               position="bottom"
+                               config="listConfig"
+                               options="lists"
+                               ng-model="input.listDs"
+                               ng-change="mappingColumn('devices', 'activeDate', input.listDs)"
+                               data-parsley-trigger="focusout"
+                               selectize="">
+                    </div>
+
+                </div>
+                <div class="uk-grid" data-uk-grid-margin="">
+                    <div class="uk-width-small-1-5">
+                        <button id="searchBtn" class="md-btn md-btn-small md-btn-primary" ng-click="search()" type="submit">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-overflow-container uk-margin-bottom table-height-fixed">
+                    <table class="hoverTable uk-table uk-table-align-vertical uk-table-striped uk-table-nowrap tablesorter tablesorter-altair table-fixed" id="devices">
+                        <thead>
+                        <tr>
+                            <th ng-show="columnVisible['areaName']" class="pointerMouse label-bold custom-cl-header-xlarge" ng-click="handleSort($event, 1, 'devices')" data-priority="1"><span>Khu vực</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['customerCode']" class="pointerMouse label-bold custom-cl-header-slarge" ng-click="handleSort($event, 2, 'devices')" data-priority="2"><span>Mã khách hàng</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['serial']" class="pointerMouse label-bold custom-cl-header-slarge" ng-click="handleSort($event, 3, 'devices')" data-priority="3"><span>Serial Number</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['productName']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 4, 'devices')" data-priority="4"><span>Tên sản phẩm</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['pricingCode']" class="pointerMouse label-bold custom-cl-header-large " ng-click="handleSort($event, 5, 'devices')" data-priority="5"><span>Gói cước</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['state']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 6, 'devices')" data-priority="6"><span >Trạng thái thiết bị</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['activeDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 7, 'devices')" data-priority="7"><span >Ngày kích hoạt</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['imei']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 8, 'devices')" data-priority="8"><span >Imei</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['mac']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 9, 'devices')" data-priority="9"><span >Mac</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['fw']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 10, 'devices')" data-priority="10"><span >Fw</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['exportDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 11, 'devices')" data-priority="11"><span >Ngày xuất xưởng</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['exportCode']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 12, 'devices')" data-priority="12"><span >Mã phiếu xuất kho</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['deliveryDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 13, 'devices')" data-priority="13"><span >Ngày giao hàng</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['expiredDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 14, 'devices')" data-priority="14"><span >Ngày kích hoạt</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['guaranteeExportDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 15, 'devices')" data-priority="15"><span >Ngày hết hạn bảo hành</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['guaranteeImportDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 16, 'devices')" data-priority="16"><span >Ngày xuất kho bảo hành</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['recallDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 17, 'devices')" data-priority="17"><span >Ngày nhập kho bảo hành</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['pricingCycle']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 18, 'devices')" data-priority="18"><span >Ngày thu hồi thiết bị</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['pricingBeginDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 19, 'devices')" data-priority="19"><span >Chu kỳ cước</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['pricingEndDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 20, 'devices')" data-priority="20"><span >Ngày bắt đầu gói cước</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['pricingPauseDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 21, 'devices')" data-priority="21"><span >Ngày thanh lý gói cước</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['pricingChangeDate']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 22, 'devices')" data-priority="22"><span >Ngày đôi gói cước (rã gói)</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['subscriptionStatus']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 23, 'devices')" data-priority="23"><span >Trạng thái thuê bao</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['originContract']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 24, 'devices')" data-priority="24"><span >Hợp đồng gốc</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['originPo']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 25, 'devices')" data-priority="25"><span >PO gốc</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['contract']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 26, 'devices')" data-priority="26"><span >Hợp đồng hiện tại</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['po']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 27, 'devices')" data-priority="27"><span >PO hiện tại</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['originAgency']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 28, 'devices')" data-priority="28"><span >Đại lý gốc</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['agency']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 29, 'devices')" data-priority="29"><span >Đại lý hiện tại</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['locationCode']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 30, 'devices')" data-priority="30"><span >Mã kho</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['locationName']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 31, 'devices')" data-priority="31"><span >Tên kho</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['description']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 32, 'devices')" data-priority="32"><span >Mô tả thêm</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['accountingCode']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 33, 'devices')" data-priority="33"><span >Mã số kế toán</span><i class="material-icons md-20 rightCell"></i></th>
+                            <th ng-show="columnVisible['inventoryTransferNumber']" class="pointerMouse label-bold custom-cl-header-large" ng-click="handleSort($event, 34, 'devices')" data-priority="34"><span >Số phiếu xuất</span><i class="material-icons md-20 rightCell"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="device in devices" on-last-repeat ng-class="{'hoverRow': !device.unRemove, 'custom-un-remove': device.unRemove}" title="{{device.unRemove}}">
+                            <td ng-show="columnVisible['areaName']">
+                                {{device.areaName}}
+                            </td>
+                            <td  ng-show="columnVisible['customerCode']">{{device.customerCode}}</td>
+                            <td  ng-show="columnVisible['serial']">{{device.serial}}</td>
+                            <td  ng-show="columnVisible['productName']">{{device.productName}}</td>
+                            <td  ng-show="columnVisible['pricingCode']">{{device.pricingCode}}</td>
+                            <td  ng-show="columnVisible['state']">
+                                <span ng-if="device.state == 1">Xuất Xưởng</span>
+                                <span ng-if="device.state == 2">Đang hoạt động</span>
+                                <span ng-if="device.state == 3">Không hoạt động</span>
+                            </td>
+                            <td  ng-show="columnVisible['activeDate']">{{device.activeDate | date: 'dd/MM/yyyy'}}</td>
+                            <td  ng-show="columnVisible['imei']">{{device.imei}}</td>
+                            <td  ng-show="columnVisible['mac']">{{device.mac}}</td>
+                            <td  ng-show="columnVisible['fw']">{{device.fw}}</td>
+                            <td  ng-show="columnVisible['exportDate']">{{device.exportDate | date: 'dd/MM/yyyy'}}</td>
+                            <td  ng-show="columnVisible['exportCode']">{{device.exportCode}}</td>
+                            <td ng-show="columnVisible['deliveryDate']">{{device.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['expiredDate']">{{device.expiredDate | date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['guaranteeExportDate']">{{device.guaranteeExportDate | date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['guaranteeImportDate']">{{device.guaranteeImportDate | date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['recallDate']">{{device.recallDate | date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['pricingCycle']">{{device.pricingCycle}}</td>
+                            <td ng-show="columnVisible['pricingBeginDate']">{{device.pricingBeginDate| date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['pricingEndDate']">{{device.pricingEndDate| date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['pricingPauseDate']">{{device.pricingPauseDate| date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['pricingChangeDate']">{{device.pricingChangeDate| date: 'dd/MM/yyyy'}}</td>
+                            <td ng-show="columnVisible['subscriptionStatus']">{{device.subscriptionStatus}}</td>
+                            <td ng-show="columnVisible['originContract']">{{device.originContract}}</td>
+                            <td ng-show="columnVisible['originPo']">{{device.originPo}}</td>
+                            <td ng-show="columnVisible['contract']">{{device.contract}}</td>
+                            <td ng-show="columnVisible['po']">{{device.po}}</td>
+                            <td ng-show="columnVisible['originAgency']">{{device.originAgency}}</td>
+                            <td ng-show="columnVisible['agency']">{{device.agency}}</td>
+                            <td ng-show="columnVisible['locationCode']">{{device.locationCode}}</td>
+                            <td ng-show="columnVisible['locationName']">{{device.locationName}}</td>
+                            <td ng-show="columnVisible['description']">{{device.description}}</td>
+                            <td ng-show="columnVisible['accountingCode']">{{device.accountingCode}}</td>
+                            <td ng-show="columnVisible['inventoryTransferNumber']">{{device.inventoryTransferNumber}}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ts_pager" id="table_device_pager">
+                    <ul class="uk-pagination ts_pager">
+                        <li ng-click="selectPageClickHandle()" data-uk-tooltip title="{{selectPage}}">
+                            <input ng-change="selectPageHandle('devices')" id="device_selectize_page" type="text"
+                                   config="TABLES['devices'].selectize_page_config" options="TABLES['devices'].selectize_page_options"
+                                   ng-model="TABLES['devices'].selectize_page" name="TABLES['devices'].selectize_page" selectize>
+                        </li>
+                        <li><a href="javascript:void(0)" class="firstPage" ng-click="handleFirstPage('devices')"><i class="uk-icon-angle-double-left"></i></a></li>
+                        <li><a href="javascript:void(0)" class="prevPage" ng-click="handlePreviousPage('devices')"><i class="uk-icon-angle-left"></i></a></li>
+                        <li><span class="pageDisplay">1-20/50</span></li>
+                        <li><a href="javascript:void(0)" class="nextPage" ng-click="handleNextPage('devices')"><i class="uk-icon-angle-right"></i></a></li>
+                        <li><a href="javascript:void(0)" class="lastPage" ng-click="handleLastPage('devices')"><i class="uk-icon-angle-double-right"></i></a></li>
+                        <li data-uk-tooltip title="{{pageSize}}">
+                            <input ng-change="selectPageNumHandle('devices')" id="device_selectize_pageNum" type="text"
+                                   config="TABLES['devices'].selectize_pageNum_config" options="TABLES['devices'].page_size_option"
+                                   ng-model="TABLES['devices'].selectize_pageNum" name="TABLES['devices'].selectize_pageNum" selectize>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--EXPORT TRANSFER-->
+<div class="uk-modal" id="export_modal">
+    <div class="uk-modal-dialog uk-modal-dialog-small">
+        <div class="uk-modal-header" style="margin: 0 -24px 0px">
+            <span><span class="uk-modal-title">Export Device</span><a class="uk-modal-close" style="float: right;"><i class="material-icons">&#xE14C;</i></a></span>
+        </div>
+        <hr>
+        <a href={{linkExportDevice}}>Bấm vào đây để tải xuống</a>
+
+        <div class="uk-modal-footer uk-text-right">
+            <button  class="uk-modal-close md-btn  md-btn-default md-btn-small"><span class="uk-text-bold">Cancel</span></button>
+        </div>
+    </div>
+</div>
+<button  data-uk-modal="{target:'#export_modal'}"  id="exportModal"   ng-show="false"></button>
+<!--END EXPORT-->
+

@@ -8,10 +8,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "master_devices")
 public class Device extends IdEntity {
-    private String serial;
+    private String serial;//1
     private String imei;
     private String mac;
-    private String productName;
+    private String productName;//1
     private String fw;
     private Integer state = DeviceState.EXPORTED;  //trạng thái thiết bị
     private Long areaId;                            // khu vực theo đơn hàng

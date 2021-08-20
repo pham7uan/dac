@@ -1,6 +1,7 @@
 package vn.seven.stc.masterdata.service;
 
 import org.springframework.beans.BeanUtils;
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.seven.stc.core.ApiResponse;
@@ -8,6 +9,7 @@ import vn.seven.stc.core.CrudService;
 import vn.seven.stc.masterdata.models.*;
 import vn.seven.stc.masterdata.repositories.DeviceRepository;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -16,6 +18,7 @@ public class DeviceService extends CrudService<Device, Long> {
     private CustomerService customerService;
     private PricingService pricingService;
     private LocationService locationService;
+    private DeviceExport deviceExport;
 
     @Autowired
     public void setCustomerService(CustomerService customerService) {
@@ -30,6 +33,11 @@ public class DeviceService extends CrudService<Device, Long> {
     @Autowired
     public void setLocationService(LocationService locationService) {
         this.locationService = locationService;
+    }
+
+    @Autowired
+    public void setDeviceExport(DeviceExport deviceExport) {
+        this.deviceExport = deviceExport;
     }
 
     public DeviceService(DeviceRepository deviceRepository){
@@ -79,6 +87,12 @@ public class DeviceService extends CrudService<Device, Long> {
 
     private Boolean validateDevicePublic(List<DevicePubic> devicePubic, ApiResponse apiResponse){
         return true;
+    }
+
+    public Map<String,String> exportDevice(List<Device> devices, String column) throws IOException {
+        Map<String,String> fileName = new HashedMap<>();
+        fileName.put("fileName",deviceExport.exportExcel(devices, column));
+        return fileName;
     }
 }
 
