@@ -4,12 +4,39 @@ import java.util.Set;
 
 public class SearchReportInfo {
     private Set<Integer> areaIds;
+    private Set<Long> projectIds;
+    private Set<Long> contractIds;
+    private Integer hasActive;
     private Set<String> areaCodes;
     private Long activeStartDate;
     private Long activeEndDate;
     private String typeExport;
 
     public SearchReportInfo() {
+    }
+
+    public Integer getHasActive() {
+        return hasActive;
+    }
+
+    public void setHasActive(Integer hasActive) {
+        this.hasActive = hasActive;
+    }
+
+    public Set<Long> getProjectIds() {
+        return projectIds;
+    }
+
+    public void setProjectIds(Set<Long> projectIds) {
+        this.projectIds = projectIds;
+    }
+
+    public Set<Long> getContractIds() {
+        return contractIds;
+    }
+
+    public void setContractIds(Set<Long> contractIds) {
+        this.contractIds = contractIds;
     }
 
     public String getTypeExport() {

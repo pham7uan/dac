@@ -6,6 +6,7 @@ import vn.seven.stc.config.ApplicationProperties;
 import vn.seven.stc.core.CrudApiEndpoint;
 import vn.seven.stc.core.GeneralEntity;
 import vn.seven.stc.masterdata.models.Device;
+import vn.seven.stc.report.DeviceReport;
 import vn.seven.stc.report.SearchReportInfo;
 import vn.seven.stc.report.services.ReportService;
 
@@ -22,7 +23,7 @@ public class ReportEndpoint extends CrudApiEndpoint<Device, Long> {
     }
 
     @RequestMapping(value="/active-device", method=RequestMethod.POST)
-    public GeneralEntity getActiveDevice(@RequestBody SearchReportInfo searchReportInfo){
+    public DeviceReport getActiveDevice(@RequestBody SearchReportInfo searchReportInfo){
         return reportService.getDeviceReport(searchReportInfo);
     }
 

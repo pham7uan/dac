@@ -28,7 +28,10 @@
           $scope.blockModal = UIkit.modal.blockUI('<div class=\'uk-text-center\'>Đang xử lý...<br><img class=\'uk - margin - top\' src=\'assets/img/spinners/spinner_success.gif\' alt=\'\'>');
         };
         $scope.searchInfo = {
+            hasActive: 0,
             areaIds: [],
+            contractIds: [],
+            projectIds: [],
             activeStartDate: null,
             activeEndDate: null
         }
@@ -50,19 +53,56 @@
         };
         ComboBoxController.init($scope, areaCbb);
 
-        var areaIds = []
+        var contractCbb = {
+            id: 'contract',
+            url: '/api/contract',
+            originParams: "",
+            valueField: 'id',
+            labelField: 'name',
+            searchField: 'name',
+            table: null,
+            column: null,
+            maxItems: null,
+            ngModel: [],
+            options: [],
+            placeholder: "Hợp đồng...",
+            orderBy: 'name,asc'
+        }
+        ComboBoxController.init($scope, contractCbb);
+
+        var projectCbb = {
+            id: 'project',
+            url: '/api/project',
+            originParams: "",
+            valueField: 'id',
+            labelField: 'name',
+            searchField: 'name',
+            table: null,
+            column: null,
+            maxItems: null,
+            ngModel: [],
+            options: [],
+            placeholder: "Dự án...",
+            orderBy: 'name,asc'
+        }
+        ComboBoxController.init($scope, projectCbb);
+
         var areaIdList = "";
 
 
         let params = areaIdList.length > 0 ? "areaId=in=("+areaIdList+")":"";
         $scope.deviceReportInfo = {
-            "url": null
+            "totalDeviceImport": 0,
+            "totalHasDeviceActive": 0,
+            "totalHasNotDeviceActive": 0,
+            "totalHasContract": 0,
+            "deviceImports": []
         }
 
         var tableConfig = {
-            tableId: "masterDevices",               //table Id
-            model: "masterDevices",                 //model
-            defaultSort:"serialNumber",          //sap xep mac dinh theo cot nao
+            tableId: "deviceImports",               //table Id
+            model: "deviceImports",                 //model
+            defaultSort:"areaName",          //sap xep mac dinh theo cot nao
             sortType: "asc",                //kieu sap xep
             loadFunction: null,     //api load du lieu
             paramBody: null,
@@ -116,7 +156,7 @@
             change: function (){
                 var value = this.value();
                 if (value != null){
-                    $scope.searchInfo.activeStartDate = value.getTime();
+                    $scope.searchInfo.activeStartDate = value.getTime() - 1;
                 }else {
                     $scope.searchInfo.activeStartDate = null;
                 }
@@ -128,7 +168,7 @@
             change: function() {
                 var value = this.value();
                 if(value !=null){
-                    $scope.searchInfo.activeEndDate = value.getTime();
+                    $scope.searchInfo.activeEndDate = value.getTime() + 86400000;
                 } else {
                     $scope.searchInfo.activeEndDate = null;
                 }
@@ -155,26 +195,72 @@
             $scope.isSearching = true;
             $scope.blockUI();
             Report.getReportDevice($scope.searchInfo).then(function (data) {
-                $scope.deviceReportInfo.url = data.url;
-                if ($scope.blockModal != null) {$scope.blockModal.hide();}
+                $scope.deviceReportInfo.totalDeviceImport = data.totalDeviceImport;
+                $scope.deviceReportInfo.totalHasDeviceActive = data.totalHasDeviceActive;
+                $scope.deviceReportInfo.totalHasNotDeviceActive = data.totalHasNotDeviceActive;
+                $scope.deviceReportInfo.totalHasContract = data.totalHasContract;
+                $scope.deviceReportInfo.deviceImports = data.deviceImports;
                 $scope.isSearching = false;
+                if ($scope.blockModal != null) {$scope.blockModal.hide();}
             }).catch(function (data) {
                 ErrorHandle.handleOneError(data);
                 if ($scope.blockModal != null){$scope.blockModal.hide();}
             });
+
+            $scope.isEmptyData = false;
+            tableConfig.customParams = customParams();
+            tableConfig.page_size_option = ["5", "10", "25", "50"] ;
+            tableConfig.selectize_pageNum = $scope.pageNum;
+            // tableConfig.loadFunction = DeviceImport.getPage;
+            TableController.initTable($scope, tableConfig);
+            TableController.sortDefault(tableConfig.tableId);
+            TableController.reloadPage(tableConfig.tableId);
         }
 
-        // Default là ngày hiện tại
-        var activeEndDatePicker = $("#activeEndDatePicker").data("kendoDatePicker");
-        activeEndDatePicker.value($scope.todayTime);
-        activeEndDatePicker.trigger("change");
+        let customParams = function() {
+            let params = "";
+            if($scope.searchInfo.hasActive == 0) {
+                params += "activeDate==null;";
+            }
+            if($scope.searchInfo.hasActive == 1) {
+                params += "activeDate!=null;";
+            }
+            if($scope.searchInfo.areaIds.length > 0) {
+                params += "(areaId=in=("+$scope.searchInfo.areaIds+"),realArea=in=("+$scope.searchInfo.areaIds+"));";
+            }
+            if($scope.searchInfo.activeStartDate != null && $scope.searchInfo.activeStartDate != "") {
+                params += "activeDate>=("+$scope.searchInfo.activeStartDate+");";
+            }
+            if($scope.searchInfo.activeEndDate != null && $scope.searchInfo.activeEndDate != "") {
+                params += "activeDate<=("+$scope.searchInfo.activeEndDate+");";
+            }
+            if($scope.searchInfo.contractIds.length > 0) {
+                params += "contractId=in=("+$scope.searchInfo.contractIds+");";
+            }
+            if($scope.searchInfo.projectIds.length > 0) {
+                params += "projectId=in=("+$scope.searchInfo.projectIds+");";
+            }
+            return params;
+        }
 
-        // Default là ngày cách ngày kích hoạt thiết bị đến 1 tháng
-        today.setMonth(today.getMonth()-1)
-        today.toLocaleString();
-        $scope.todayTime = genDateTime(today.getTime());
-        var activeStartDatePicker = $("#activeStartDatePicker").data("kendoDatePicker");
-        activeStartDatePicker.value($scope.todayTime);
-        activeStartDatePicker.trigger("change");
+
+        $scope.selectize_roles_config = {
+            plugins: {
+                'remove_button': {
+                    label: ''
+                }
+            },
+            maxItems: 1,
+            valueField: 'id',
+            labelField: 'name',
+            searchField: 'name',
+            create: false
+        };
+
+        $scope.selectize_roles_options = [
+            {id: 0, name: "Tất cả"},
+            {id: 1, name: "Thiết bị có gói cước"},
+            {id: 2, name: "Thiết bị không có gói cước"}
+        ];
     }
 })();

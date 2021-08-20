@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_active" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a1accd3-4fd5-4ed4-bad6-854445cbf931">
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="home_authen"/>
+    <parameter name="FROM_ACTIVE_DATE" class="java.lang.Long"/>
+    <parameter name="TO_ACTIVE_DATE" class="java.lang.Long"/>
+    <parameter name="AREA_IDS" class="java.util.Collection"/>
+    <parameter name="PROJECT_IDS" class="java.util.Collection"/>
+    <parameter name="CONTRACT_IDS" class="java.util.Collection"/>
+    <parameter name="HAS_ACTIVE" class="java.lang.Integer">
+        <defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+    </parameter>
+    <parameter name="test1" class="java.lang.String">
+        <defaultValueExpression><![CDATA["SELECT * FROM dac.master_devices WHERE $X{GREATER, active_date, FROM_ACTIVE_DATE} AND $X{LESS, active_date, TO_ACTIVE_DATE} AND $X{IN, area_id, AREA_IDS}  AND $X{IN, contract_id, CONTRACT_IDS}  AND $X{IN, project_id, PROJECT_IDS} ORDER BY area_id DESC"]]></defaultValueExpression>
+    </parameter>
+    <parameter name="test2" class="java.lang.String">
+        <defaultValueExpression><![CDATA["SELECT * FROM dac.master_devices WHERE $X{GREATER, active_date, FROM_ACTIVE_DATE} AND $X{LESS, active_date, TO_ACTIVE_DATE} AND $X{IN, area_id, AREA_IDS}  AND $X{IN, contract_id, CONTRACT_IDS}  AND $X{IN, project_id, PROJECT_IDS}  AND pricing_code IS NOT NULL ORDER BY area_id DESC"]]></defaultValueExpression>
+    </parameter>
+    <parameter name="query" class="java.lang.String">
+        <defaultValueExpression><![CDATA[$P{HAS_ACTIVE} == 0 ?$P{test1} : $P{HAS_ACTIVE} == 1 ? $P{test2} : $P{test3}]]></defaultValueExpression>
+    </parameter>
+    <parameter name="test3" class="java.lang.String">
+        <defaultValueExpression><![CDATA["SELECT * FROM dac.master_devices WHERE $X{GREATER, active_date, FROM_ACTIVE_DATE} AND $X{LESS, active_date, TO_ACTIVE_DATE} AND $X{IN, area_id, AREA_IDS}  AND $X{IN, contract_id, CONTRACT_IDS}  AND $X{IN, project_id, PROJECT_IDS}  AND pricing_code IS  NULL ORDER BY area_id DESC"]]></defaultValueExpression>
+    </parameter>
+    <queryString language="SQL">
+        <![CDATA[$P!{query}]]>
+    </queryString>
+    <field name="id" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="id"/>
+        <property name="com.jaspersoft.studio.field.label" value="id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="serial" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="serial"/>
+        <property name="com.jaspersoft.studio.field.label" value="serial"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="imei" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="imei"/>
+        <property name="com.jaspersoft.studio.field.label" value="imei"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="mac" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="mac"/>
+        <property name="com.jaspersoft.studio.field.label" value="mac"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="product_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="product_name"/>
+        <property name="com.jaspersoft.studio.field.label" value="product_name"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="fw" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="fw"/>
+        <property name="com.jaspersoft.studio.field.label" value="fw"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="state" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="state"/>
+        <property name="com.jaspersoft.studio.field.label" value="state"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="area_id" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="area_id"/>
+        <property name="com.jaspersoft.studio.field.label" value="area_id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="area_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="area_name"/>
+        <property name="com.jaspersoft.studio.field.label" value="area_name"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="export_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="export_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="export_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="delivery_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="delivery_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="delivery_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="active_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="active_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="active_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="expired_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="expired_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="expired_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="guarantee_export_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="guarantee_export_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="guarantee_export_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="guarantee_import_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="guarantee_import_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="guarantee_import_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="recall_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="recall_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="recall_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="export_code" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="export_code"/>
+        <property name="com.jaspersoft.studio.field.label" value="export_code"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="customer_code" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="customer_code"/>
+        <property name="com.jaspersoft.studio.field.label" value="customer_code"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="pricing_code" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="pricing_code"/>
+        <property name="com.jaspersoft.studio.field.label" value="pricing_code"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="pricing_cycle" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="pricing_cycle"/>
+        <property name="com.jaspersoft.studio.field.label" value="pricing_cycle"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="pricing_begin_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="pricing_begin_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="pricing_begin_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="pricing_end_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="pricing_end_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="pricing_end_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="pricing_pause_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="pricing_pause_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="pricing_pause_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="pricing_change_date" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="pricing_change_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="pricing_change_date"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="subscription_status" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="subscription_status"/>
+        <property name="com.jaspersoft.studio.field.label" value="subscription_status"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="origin_contract" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="origin_contract"/>
+        <property name="com.jaspersoft.studio.field.label" value="origin_contract"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="origin_po" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="origin_po"/>
+        <property name="com.jaspersoft.studio.field.label" value="origin_po"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="contract" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="contract"/>
+        <property name="com.jaspersoft.studio.field.label" value="contract"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="po" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="po"/>
+        <property name="com.jaspersoft.studio.field.label" value="po"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="origin_agency" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="origin_agency"/>
+        <property name="com.jaspersoft.studio.field.label" value="origin_agency"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="agency" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="agency"/>
+        <property name="com.jaspersoft.studio.field.label" value="agency"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="location_code" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="location_code"/>
+        <property name="com.jaspersoft.studio.field.label" value="location_code"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="location_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="location_name"/>
+        <property name="com.jaspersoft.studio.field.label" value="location_name"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="description" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="description"/>
+        <property name="com.jaspersoft.studio.field.label" value="description"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="accounting_code" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="accounting_code"/>
+        <property name="com.jaspersoft.studio.field.label" value="accounting_code"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="inventory_transfer_number" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="inventory_transfer_number"/>
+        <property name="com.jaspersoft.studio.field.label" value="inventory_transfer_number"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="customer_type" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="customer_type"/>
+        <property name="com.jaspersoft.studio.field.label" value="customer_type"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="created_by" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="created_by"/>
+        <property name="com.jaspersoft.studio.field.label" value="created_by"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="updated_by" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="updated_by"/>
+        <property name="com.jaspersoft.studio.field.label" value="updated_by"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="created" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="created"/>
+        <property name="com.jaspersoft.studio.field.label" value="created"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="updated" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="updated"/>
+        <property name="com.jaspersoft.studio.field.label" value="updated"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="active" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="active"/>
+        <property name="com.jaspersoft.studio.field.label" value="active"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="tenant_id" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="tenant_id"/>
+        <property name="com.jaspersoft.studio.field.label" value="tenant_id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="origin_contract_id" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="origin_contract_id"/>
+        <property name="com.jaspersoft.studio.field.label" value="origin_contract_id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="contract_id" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="contract_id"/>
+        <property name="com.jaspersoft.studio.field.label" value="contract_id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="project" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="project"/>
+        <property name="com.jaspersoft.studio.field.label" value="project"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="project_id" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="project_id"/>
+        <property name="com.jaspersoft.studio.field.label" value="project_id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="master_devices"/>
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <variable name="TOTAL_DEVICES" class="java.lang.Integer" calculation="Highest">
+        <variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+    </variable>
+    <variable name="ACTIVE_DEVICES" class="java.lang.Integer" incrementType="Report">
+        <variableExpression><![CDATA[$F{active} == 1 ? $V{ACTIVE_DEVICES}+ 1:$V{ACTIVE_DEVICES}]]></variableExpression>
+        <initialValueExpression><![CDATA[0]]></initialValueExpression>
+    </variable>
+    <variable name="INACTIVE_DEVICES" class="java.lang.Integer" incrementType="Report">
+        <variableExpression><![CDATA[$F{active} == 0 ? $V{INACTIVE_DEVICES}+ 1:$V{INACTIVE_DEVICES}]]></variableExpression>
+        <initialValueExpression><![CDATA[0]]></initialValueExpression>
+    </variable>
+    <variable name="TOTAL_CONTRACTS" class="java.lang.Integer" calculation="Highest">
+        <variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+    </variable>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="130" splitType="Stretch">
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <textField evaluationTime="Report">
+                <reportElement x="6" y="65" width="350" height="30" uuid="a1df7c0a-cbe6-452a-b3da-acbe13a5efca"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Tổng số lượng thiết bị chưa được kích hoạt: " + $V{INACTIVE_DEVICES}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="6" y="3" width="350" height="30" uuid="1cef2aed-156c-4bf0-b6ad-a7ecb3f2f2c6"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Tổng số lượng thiết bị đã xuất: " + $V{TOTAL_DEVICES}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="6" y="35" width="350" height="30" uuid="7295b982-dceb-41a1-8d40-869c0a4ddf6d"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Tổng số lượng thiết bị đã được kích hoạt: " + $V{ACTIVE_DEVICES}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="6" y="95" width="350" height="30" uuid="5eaab63f-7694-4c12-86f6-2d9ebfec3d6e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($P{CONTRACT_IDS}.size() != 0)?"Tổng số lượng thiết bị theo hợp đồng: " + $V{TOTAL_CONTRACTS} :""]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="11" splitType="Stretch"/>
+    </pageHeader>
+    <columnHeader>
+        <band height="40" splitType="Stretch">
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <staticText>
+                <reportElement x="0" y="0" width="40" height="40" uuid="e55485a1-e2e6-4d2d-94c8-047bc4dad39b">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b81785e6-fca3-4bd4-866d-4b154195b5c2"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[STT]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="40" y="0" width="73" height="40" uuid="9a4a61c4-3de8-419b-ae78-8fc4f00ddc8e">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f177019-f0f3-4cc8-86ab-a65d360e5fe5"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[serial]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="113" y="0" width="53" height="40" uuid="fac21bf9-7613-49bf-97a8-ccc1f762e6d2">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9e02e446-c8b5-48fb-a6b2-8a7d39e14a41"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[mac]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="166" y="0" width="53" height="40" uuid="d05330d6-c262-430f-9118-933a9a0bb915">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c3772ac2-d240-4477-a018-169dc8af540c"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tên thiết bị]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="219" y="0" width="53" height="40" uuid="f277676b-def9-4caf-8ce5-e5a1979d13ee">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea467a74-f082-4f75-b439-af830008f583"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Phiên bản firmware]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="272" y="0" width="53" height="40" uuid="23a5f26f-e0ea-4e84-9c4a-096e3911a363">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f4462b20-69f4-4d5e-b09b-13dfe0fcf028"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Khu vực]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="325" y="0" width="53" height="40" uuid="f82c07bc-00a8-4605-953d-7aec4f749081">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c023a2e5-bc96-4bd3-9a69-2860c44c89be"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ngày kích hoạt]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="378" y="0" width="53" height="40" uuid="b94167dc-7c90-4865-a2d8-3666996049f8">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f27504b-6c37-4700-8674-73b4c0b72b5a"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Mã đơn hàng]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="431" y="0" width="53" height="40" uuid="9392f66d-b01b-46d7-928d-444edffc8550">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c7b67d80-6cf3-4590-b969-dce873db492a"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tên gói cước]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="484" y="0" width="53" height="40" uuid="28351606-74aa-4e20-9d19-1b15b743fd15">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="deae19d8-6c20-4536-ac3b-f18953229035"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ngày bắt đầu gói cước]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="537" y="0" width="53" height="40" uuid="96ef980f-d513-4f2b-b388-a5bc52f90974">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dec55f64-11ad-4ff3-8875-36246687dcd5"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ngày kết thúc gói cước]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="590" y="0" width="53" height="40" uuid="11ffd443-5cec-485f-8862-e220ce2a74d3">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f62c539b-d752-4a70-96fa-ceae7f16a7c5"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ngày tạm ngừng gói cước]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="643" y="0" width="53" height="40" uuid="770f3887-2c9f-4d5d-b3b1-a934d43caaad">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="355294b6-a93d-4aa4-98bc-131418ecc7d8"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ngày đổi gói cước]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="696" y="0" width="53" height="40" uuid="75fe08ad-2155-40da-8fde-273df1605b57">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c2af9a38-046d-446f-9dc6-9a4bc43a15f6"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Hợp đồng]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="749" y="0" width="53" height="40" uuid="833724c8-dad4-4b2a-84ab-df0f6fdd539f">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dded5818-90aa-42d8-97ff-851ccc182813"/>
+                </reportElement>
+                <box>
+                    <pen lineWidth="1.0" lineStyle="Double"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PO]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="30" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="40" height="30" uuid="51728e89-adee-4339-87f3-13330a8bfe70">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b81785e6-fca3-4bd4-866d-4b154195b5c2"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="40" y="0" width="73" height="30" uuid="20922d8e-116c-4b44-92fd-89271f5f471f">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f177019-f0f3-4cc8-86ab-a65d360e5fe5"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{serial} != null) ? $F{serial} : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="113" y="0" width="53" height="30" uuid="f4bf1615-976c-49f3-919e-eb0816c4830f">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9e02e446-c8b5-48fb-a6b2-8a7d39e14a41"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{mac} != null) ? $F{mac} : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="166" y="0" width="53" height="30" uuid="e5186835-4448-432d-a023-a962f0e708f5">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c3772ac2-d240-4477-a018-169dc8af540c"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{product_name} != null) ? $F{product_name}: ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="219" y="0" width="53" height="30" uuid="531a97ae-eff8-4439-951c-549c9f97f753">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea467a74-f082-4f75-b439-af830008f583"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{fw} != null) ? $F{fw}: ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="272" y="0" width="53" height="30" uuid="d94286dc-b7ff-4075-a6d6-f6ac5ac07a1d">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f4462b20-69f4-4d5e-b09b-13dfe0fcf028"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{area_name} != null) ? $F{area_name} : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="325" y="0" width="53" height="30" uuid="b2b1770e-5d07-4cee-a18c-64a0498f85ad">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c023a2e5-bc96-4bd3-9a69-2860c44c89be"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{active_date} != null) ? new SimpleDateFormat("dd-MM-yyyy").format($F{active_date}) : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="378" y="0" width="53" height="30" uuid="c3cf3de5-5810-423f-8a17-cdf37f178dad">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f27504b-6c37-4700-8674-73b4c0b72b5a"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{export_code} != null) ? $F{export_code}: ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="431" y="0" width="53" height="30" uuid="666fc2bc-e718-40ca-80c9-c45a9d4002b6">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c7b67d80-6cf3-4590-b969-dce873db492a"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{pricing_code} != null) ? $F{pricing_code}: ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="484" y="0" width="53" height="30" uuid="f6c838d7-b80c-4b22-a823-4aa70e9be751">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="deae19d8-6c20-4536-ac3b-f18953229035"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{pricing_begin_date} != null)?new SimpleDateFormat("dd-MM-yyyy").format($F{pricing_begin_date}): ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="537" y="0" width="53" height="30" uuid="a13d057d-2f3a-4910-ad2b-7cb6be1880de">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dec55f64-11ad-4ff3-8875-36246687dcd5"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{pricing_end_date} != null) ? new SimpleDateFormat("dd-MM-yyyy").format($F{pricing_end_date}): ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="590" y="0" width="53" height="30" uuid="b68aad35-1dce-4517-aa7b-e53afdc79d08">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f62c539b-d752-4a70-96fa-ceae7f16a7c5"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{pricing_pause_date} != null) ? new SimpleDateFormat("dd-MM-yyyy").format($F{pricing_pause_date}): ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="643" y="0" width="53" height="30" uuid="cd3c70f0-bf19-4d6a-853e-6520a1a67137">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="355294b6-a93d-4aa4-98bc-131418ecc7d8"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{pricing_change_date} != null) ? new SimpleDateFormat("dd-MM-yyyy").format($F{pricing_change_date}) : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="696" y="0" width="53" height="30" uuid="6dee1846-f52f-4966-91b1-e9fc96509c6e">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c2af9a38-046d-446f-9dc6-9a4bc43a15f6"/>
+                </reportElement>
+                <box>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{contract} != null) ? $F{contract}: ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="749" y="0" width="53" height="30" uuid="cc2446a2-969e-4c9e-9b9c-346f64940f10">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dded5818-90aa-42d8-97ff-851ccc182813"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($F{po} != null) ? $F{po}: ""]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="1" splitType="Stretch">
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band height="60" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="802" height="60" uuid="906efe38-7790-4c91-8fc6-a61c7215997a"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+    <summary>
+        <band splitType="Stretch"/>
+    </summary>
+</jasperReport>

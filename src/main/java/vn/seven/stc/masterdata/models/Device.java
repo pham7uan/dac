@@ -44,6 +44,42 @@ public class Device extends IdEntity {
     private String accountingCode;                  // Mã số kế toán
     private String inventoryTransferNumber;         // Số phiếu xuất
     private Integer customerType = 1;               //1 Khách hàng hiện hữu/ 2 khách hàng mới
+    private Long contractId;
+    private Long projectId;
+    private String project;
+    private Long originContractId;
+
+    public Long getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public Long getOriginContractId() {
+        return originContractId;
+    }
+
+    public void setOriginContractId(Long originContractId) {
+        this.originContractId = originContractId;
+    }
 
     public String getSerial() {
         return serial;

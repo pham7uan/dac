@@ -8,6 +8,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.*;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,15 @@ import vn.seven.stc.core.Constants;
 import vn.seven.stc.core.CrudService;
 import vn.seven.stc.core.GeneralEntity;
 import vn.seven.stc.core.ReportConstants;
+import vn.seven.stc.masterdata.models.Area;
+import vn.seven.stc.masterdata.models.Contract;
 import vn.seven.stc.masterdata.models.Device;
+import vn.seven.stc.masterdata.models.Project;
+import vn.seven.stc.masterdata.repositories.AreaRepository;
+import vn.seven.stc.masterdata.repositories.ContractRepository;
 import vn.seven.stc.masterdata.repositories.DeviceRepository;
+import vn.seven.stc.masterdata.repositories.ProjectRepository;
+import vn.seven.stc.report.DeviceReport;
 import vn.seven.stc.report.SearchReportInfo;
 
 import javax.persistence.EntityManager;
@@ -28,10 +36,7 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -49,9 +54,92 @@ public class ReportService extends CrudService<Device, Long> {
         this.repository = this.deviceRepository = repository;
     }
 
-    public GeneralEntity getDeviceReport(SearchReportInfo searchReportInfo) {
-        searchReportInfo.setTypeExport(ReportConstants.HTML);
-        return export(searchReportInfo);
+//    public GeneralEntity getDeviceReport(SearchReportInfo searchReportInfo) {
+//        searchReportInfo.setTypeExport(ReportConstants.HTML);
+//        return export(searchReportInfo);
+//    }
+
+    public DeviceReport getDeviceReport(SearchReportInfo searchReportInfo) {
+        //Tạo câu query
+        StringBuilder sql = new StringBuilder("SELECT d.area_name, d.serial, d.mac, d.product_name, d.fw, d.active_date, ");
+        sql.append("d.contract, d.po, d.export_code, d.pricing_code, d.pricing_begin_date, d.pricing_end_date, ");
+        sql.append("d.pricing_pause_date, d.pricing_change_date, d.active FROM master_devices AS d WHERE 1=1 ");
+
+        if (searchReportInfo.getAreaIds() != null && searchReportInfo.getAreaIds().size() > 0){
+            sql.append(" AND (area_id IN :areaIds) ");
+        }
+        if (searchReportInfo.getContractIds() != null && searchReportInfo.getContractIds().size() > 0){
+            sql.append(" AND (contract_id :contractIds) ");
+        }
+        if (searchReportInfo.getProjectIds() != null && searchReportInfo.getProjectIds().size() > 0){
+            sql.append(" AND (project_id :projectIds) ");
+        }
+        if (searchReportInfo.getHasActive().equals(1)){
+            sql.append(" AND pricing_code IS NOT NULL");
+        }else if (searchReportInfo.getHasActive().equals(2)){
+            sql.append(" AND pricing_code IS NULL");
+        }
+        if(searchReportInfo.getActiveStartDate() != null) {
+            sql.append(" AND active_date > ").append(searchReportInfo.getActiveStartDate());
+        }
+        if(searchReportInfo.getActiveEndDate() != null) {
+            sql.append(" AND active_date < ").append(searchReportInfo.getActiveEndDate());
+        }
+
+        Query query = entityManager.createNativeQuery(sql.toString());
+
+        if(searchReportInfo.getAreaIds() != null && searchReportInfo.getAreaIds().size() > 0) {
+            query.setParameter("areaIds", searchReportInfo.getAreaIds());
+        }
+        if(searchReportInfo.getProjectIds() != null && searchReportInfo.getProjectIds().size() > 0) {
+            query.setParameter("projectIds", searchReportInfo.getProjectIds());
+        }
+        if(searchReportInfo.getContractIds() != null && searchReportInfo.getContractIds().size() > 0) {
+            query.setParameter("contractIds", searchReportInfo.getContractIds());
+        }
+
+        //Lấy dữ liệu câu query
+        List<Device> deviceList = new ArrayList<>();
+        DeviceReport deviceReport = new DeviceReport();
+        Integer totalDeviceImport = 0;
+        Integer totalHasDeviceActive = 0;
+        Integer totalHasNotDeviceActive = 0;
+        Integer totalHasContract = 0;
+        Integer active;
+        for (Object object : query.getResultList()){
+            Device device = new Device();
+            device.setAreaName((((Object[]) object)[0]).toString());
+            device.setSerial((((Object[]) object)[1]).toString());
+            device.setMac((((Object[]) object)[2]).toString());
+            device.setProductName((((Object[]) object)[3]).toString());
+            device.setFw((((Object[]) object)[4]).toString());
+            device.setActiveDate((((Object[]) object)[5]) != null ? Long.valueOf((((Object[]) object)[5]).toString()) : null);
+            device.setContract((((Object[]) object)[6]).toString());
+            device.setPo((((Object[]) object)[7]).toString());
+            device.setExportCode((((Object[]) object)[8]).toString());
+            device.setPricingCode((((Object[]) object)[9]).toString());
+            device.setPricingBeginDate((((Object[]) object)[10]) != null ? Long.valueOf((((Object[]) object)[10]).toString()) : null);
+            device.setPricingEndDate((((Object[]) object)[11]) != null ? Long.valueOf((((Object[]) object)[11]).toString()) : null);
+            device.setPricingPauseDate((((Object[]) object)[12]) != null ? Long.valueOf((((Object[]) object)[12]).toString()) : null);
+            device.setPricingChangeDate((((Object[]) object)[13]) != null ? Long.valueOf((((Object[]) object)[13]).toString()) : null);
+            totalDeviceImport++;
+            totalHasContract++;
+
+            active = Integer.parseInt((((Object[]) object)[14]).toString());
+            if (active.equals(0)){
+                totalHasNotDeviceActive++;
+            }else if (active.equals(1)){
+                totalHasDeviceActive++;
+            }
+
+            deviceList.add(device);
+        }
+        deviceReport.setDeviceImports(deviceList);
+        deviceReport.setTotalDeviceImport(totalDeviceImport);
+        deviceReport.setTotalHasDeviceActive(totalHasDeviceActive);
+        deviceReport.setTotalHasNotDeviceActive(totalHasNotDeviceActive);
+        deviceReport.setTotalHasContract(totalHasContract);
+        return deviceReport;
     }
 
     public GeneralEntity exportActiveDevice(SearchReportInfo searchReportInfo) {
@@ -72,13 +160,16 @@ public class ReportService extends CrudService<Device, Long> {
             String dir = "/attachment/reports";
             String path = System.getProperty("user.dir") + dir;
 
-            File file = ResourceUtils.getFile("classpath:report.jrxml");
+            File file = ResourceUtils.getFile("classpath:template/report/report.jrxml");
             JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 
             Map<String, Object> map = new HashMap<>();
-            map.put("fromActiveDate", searchReportInfo.getActiveStartDate() - 86400000);
-            map.put("toActiveDate", searchReportInfo.getActiveEndDate() + 86400000);
-            map.put("areaList", searchReportInfo.getAreaIds());
+            map.put("FROM_ACTIVE_DATE", searchReportInfo.getActiveStartDate());
+            map.put("TO_ACTIVE_DATE", searchReportInfo.getActiveEndDate());
+            map.put("AREA_IDS", searchReportInfo.getAreaIds());
+            map.put("PROJECT_IDS", searchReportInfo.getProjectIds());
+            map.put("CONTRACT_IDS", searchReportInfo.getContractIds());
+            map.put("HAS_ACTIVE", searchReportInfo.getHasActive());
             JasperPrint jp = JasperFillManager.fillReport(jasperReport, map, connection);
             String fileName = "report_" + System.currentTimeMillis();
             switch (searchReportInfo.getTypeExport()){
