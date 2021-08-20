@@ -81,7 +81,7 @@
         ];
         $scope.columnVisible = {};
         $scope.defaultColumn = ['areaName', 'customerCode', 'serial', 'productName', 'pricingCode', 'state', 'activeDate']
-        $scope.defaultSetting = "supplierDefaultColumn";
+        $scope.defaultSetting = "deviceDefaultColumn";
 
         var customParams = ""; // lay ENDUSER
         var tableConfig = {
@@ -199,11 +199,11 @@
         $scope.lists = [
             {
                 id: 0,
-                name: "Chưa kích hoạt"
+                name: "Có ngày kích hoạt"
             },
             {
                 id: 1,
-                name: "Đã kích hoạt"
+                name: "Có gói cước"
             }
         ];
         $scope.listConfig = {
@@ -279,6 +279,12 @@
             }
             if ($scope.input.fromDate != null && $scope.input.activeDate != "") {
                 $scope.TABLES['devices'].customParams += ";activeDate <=" + $scope.input.fromDate;
+            }
+            if($scope.input.listDs == '0'){
+                $scope.TABLES['devices'].customParams = "activeDate != null"
+            }
+            if ($scope.input.listDs == '1') {
+                $scope.TABLES['devices'].customParams = "pricingCode != null"
             }
             TableController.reloadPage(tableConfig.tableId);    //load du lieu cho table
         }
